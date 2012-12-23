@@ -121,6 +121,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CsvMatrix";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Main)).EndInit();
             this.menuStrip1.ResumeLayout(false);

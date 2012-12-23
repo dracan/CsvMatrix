@@ -27,7 +27,10 @@ namespace CsvMatrix.Common
 
                     while((str = sr.ReadLine()) != null)
                     {
-                        ProcessDataLine(str);
+                        if(str.Length > 0)
+                        {
+                            ProcessDataLine(str);
+                        }
                     }
                 }
             }
@@ -71,6 +74,8 @@ namespace CsvMatrix.Common
             {
                 row[cellIndex] = cells[cellIndex];
             }
+
+            _data.Rows.Add(row);
         }
 
         public void Dispose()
