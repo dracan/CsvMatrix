@@ -1,0 +1,4 @@
+CsvMatrix/bin/
+CsvMatrix/obj/
+*.suo
+*.swp
