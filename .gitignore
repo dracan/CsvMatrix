@@ -1,4 +1,4 @@
-CsvMatrix/bin/
-CsvMatrix/obj/
+*/bin/*
+*/obj/*
 *.suo
 *.swp
