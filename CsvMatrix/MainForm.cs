@@ -29,5 +29,10 @@ namespace CsvMatrix
                 dataGridView_Main.DataSource = _currentCsv.DataSource;
             }
         }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }
