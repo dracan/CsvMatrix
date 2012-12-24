@@ -10,27 +10,32 @@ namespace CsvMatrix.Common
 
         public CsvFile(string filename)
         {
-            LoadCsvFile(filename);
-        }
-
-        private void LoadCsvFile(string filename)
-        {
             using(var fs = new FileStream(filename, FileMode.Open, FileAccess.Read))
             {
-                using(var sr = new StreamReader(fs))
+                LoadCsvFile(fs);
+            }
+        }
+
+        public CsvFile(MemoryStream stream)
+        {
+            LoadCsvFile(stream);
+        }
+
+        private void LoadCsvFile(Stream stream)
+        {
+            using(var sr = new StreamReader(stream))
+            {
+                // Try to read the first line to ascertain the schema
+
+                string str = sr.ReadLine();
+
+                ProcessHeaderLine(str);
+
+                while((str = sr.ReadLine()) != null)
                 {
-                    // Try to read the first line to ascertain the schema
-
-                    string str = sr.ReadLine();
-
-                    ProcessHeaderLine(str);
-
-                    while((str = sr.ReadLine()) != null)
+                    if(str.Length > 0)
                     {
-                        if(str.Length > 0)
-                        {
-                            ProcessDataLine(str);
-                        }
+                        ProcessDataLine(str);
                     }
                 }
             }
@@ -52,7 +57,15 @@ namespace CsvMatrix.Common
 
             foreach(var cell in cells)
             {
-                _data.Columns.Add(cell);
+                var value = cell;
+
+                // Trim quotes
+                if(value.StartsWith("\"") && value.EndsWith("\""))
+                {
+                    value = value.Substring(1, value.Length - 2);
+                }
+
+                _data.Columns.Add(value);
             }
         }
 
@@ -72,7 +85,15 @@ namespace CsvMatrix.Common
 
             for(var cellIndex = 0; cellIndex < cells.Length; cellIndex++)
             {
-                row[cellIndex] = cells[cellIndex];
+                var value = cells[cellIndex];
+
+                // Trim quotes
+                if(value.StartsWith("\"") && value.EndsWith("\""))
+                {
+                    value = value.Substring(1, value.Length - 2);
+                }
+
+                row[cellIndex] = value;
             }
 
             _data.Rows.Add(row);
