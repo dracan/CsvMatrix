@@ -2,7 +2,7 @@
 
 namespace CsvMatrix.Common
 {
-    class InvalidCsvException : Exception
+    public class InvalidCsvException : Exception
     {
     }
 }
