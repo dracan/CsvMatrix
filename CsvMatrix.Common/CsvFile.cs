@@ -9,7 +9,6 @@ namespace CsvMatrix.Common
     public class CsvFile : IDisposable
     {
         private DataTable _data;
-
         private const char _delimiter = '\t'; //(todo) Support different delimiters
 
         public CsvFile(string filename)
@@ -125,6 +124,58 @@ namespace CsvMatrix.Common
             }
 
             _data.Rows.Add(row);
+        }
+
+        public void Save(string filename)
+        {
+            using(var fs = new FileStream(filename, FileMode.Create, FileAccess.Write))
+            {
+                using(var sw = new StreamWriter(fs))
+                {
+                    // Write the header row
+
+                    var firstColumn = true;
+
+                    foreach(DataColumn column in _data.Columns)
+                    {
+                        if(firstColumn)
+                        {
+                            firstColumn = false;
+                        }
+                        else
+                        {
+                            sw.Write(_delimiter);
+                        }
+
+                        sw.Write(column.ColumnName);
+                    }
+
+                    sw.WriteLine();
+
+                    // Write the data rows
+
+                    foreach(DataRow row in _data.Rows)
+                    {
+                        var firstCell = true;
+
+                        foreach(var cell in row.ItemArray)
+                        {
+                            if(firstCell)
+                            {
+                                firstCell = false;
+                            }
+                            else
+                            {
+                                sw.Write(_delimiter);
+                            }
+
+                            sw.Write(cell);
+                        }
+
+                        sw.WriteLine();
+                    }
+                }
+            }
         }
 
         public void Dispose()

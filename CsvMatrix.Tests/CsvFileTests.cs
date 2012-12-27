@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using CsvMatrix.Common;
 using NUnit.Framework;
 
@@ -106,6 +107,25 @@ namespace CsvMatrix.Tests
             testData.AppendLine("\"Dan\"\t\"Clarke\"\t\"Male\"");
 
             var csv = Utility.CreateCsvObject(testData);
+        }
+
+        [Test]
+        public void TestSaveCsv()
+        {
+            var testData = new StringBuilder();
+
+            testData.AppendLine("FirstName\tSurname\tAge\tGender");
+            testData.AppendLine("Dan\tClarke\t34\tMale");
+
+            var csv = Utility.CreateCsvObject(testData);
+
+            var tempFilename = Path.GetTempFileName();
+
+            csv.Save(tempFilename);
+
+            var fileData = File.ReadAllText(tempFilename);
+
+            Assert.That(fileData, Is.EqualTo(testData.ToString()));
         }
     }
 }
