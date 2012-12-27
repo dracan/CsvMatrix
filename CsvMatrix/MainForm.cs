@@ -149,5 +149,13 @@ namespace CsvMatrix
             var aboutForm = new About();
             aboutForm.ShowDialog();
         }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(!CheckForChangesBeforeClosing())
+            {
+                e.Cancel = true;
+            }
+        }
     }
 }
