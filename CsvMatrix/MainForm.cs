@@ -143,5 +143,11 @@ namespace CsvMatrix
                 closeToolStripMenuItem.Enabled = true;
             }
         }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var aboutForm = new About();
+            aboutForm.ShowDialog();
+        }
     }
 }
