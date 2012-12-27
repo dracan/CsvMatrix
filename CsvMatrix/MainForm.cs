@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 using CsvMatrix.Common;
 
@@ -40,12 +41,66 @@ namespace CsvMatrix
             }
         }
 
-        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        private bool CheckForChangesBeforeClosing()
         {
-            Close();
+            if(_currentCsv != null && _currentCsv.HasChanges)
+            {
+                switch(MessageBox.Show("Do you want to save your changes?", "Save Changes?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
+                {
+                    case DialogResult.Yes:
+                    {
+                        Save();
+                        break;
+                    }
+                    case DialogResult.No:
+                    {
+                        return true;
+                    }
+                    case DialogResult.Cancel:
+                    {
+                        return false;
+                    }
+                    default:
+                    {
+                        throw new InvalidEnumArgumentException();
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(CheckForChangesBeforeClosing())
+            {
+                Close();
+            }
+        }
+
+        private void closeToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if(CheckForChangesBeforeClosing())
+            {
+                _currentCsv = null;
+                _currentFilename = null;
+                dataGridView_Main.DataSource = null;
+
+                UpdateMenuStates();
+            }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Save();
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveAs();
+        }
+
+        private void Save()
         {
             if(_currentFilename == null)
             {
@@ -55,11 +110,6 @@ namespace CsvMatrix
             {
                 _currentCsv.Save(_currentFilename);
             }
-        }
-
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveAs();
         }
 
         private void SaveAs()
@@ -84,11 +134,13 @@ namespace CsvMatrix
             {
                 saveToolStripMenuItem.Enabled = false;
                 saveAsToolStripMenuItem.Enabled = false;
+                closeToolStripMenuItem.Enabled = false;
             }
             else
             {
                 saveToolStripMenuItem.Enabled = true;
                 saveAsToolStripMenuItem.Enabled = true;
+                closeToolStripMenuItem.Enabled = true;
             }
         }
     }

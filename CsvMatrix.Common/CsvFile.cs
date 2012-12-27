@@ -42,6 +42,8 @@ namespace CsvMatrix.Common
                     }
                 }
             }
+
+            _data.AcceptChanges();
         }
 
         private void ProcessHeaderLine(string headerString)
@@ -176,6 +178,8 @@ namespace CsvMatrix.Common
                     }
                 }
             }
+
+            _data.AcceptChanges();
         }
 
         public void Dispose()
@@ -185,6 +189,11 @@ namespace CsvMatrix.Common
         public DataTable DataSource
         {
             get { return _data; }
+        }
+
+        public bool HasChanges
+        {
+            get { return _data.GetChanges() != null; }
         }
     }
 }
