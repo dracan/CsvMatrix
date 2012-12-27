@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 
 namespace CsvMatrix.Common
@@ -7,6 +9,8 @@ namespace CsvMatrix.Common
     public class CsvFile : IDisposable
     {
         private DataTable _data;
+
+        private const char _delimiter = '\t'; //(todo) Support different delimiters
 
         public CsvFile(string filename)
         {
@@ -48,10 +52,7 @@ namespace CsvMatrix.Common
                 throw new InvalidCsvException();
             }
 
-            // Split the line using tab character as a delimiter. Currently this does this blindly.
-            // Later on it'll handle different delimiters and quotes.
-
-            var cells = headerString.Split('\t');
+            var cells = SplitLine(headerString);
 
             _data = new DataTable();
 
@@ -59,22 +60,55 @@ namespace CsvMatrix.Common
             {
                 var value = cell;
 
-                // Trim quotes
-                if(value.StartsWith("\"") && value.EndsWith("\""))
-                {
-                    value = value.Substring(1, value.Length - 2);
-                }
-
                 _data.Columns.Add(value);
             }
         }
 
+        private string[] SplitLine(string lineString)
+        {
+            var cells = lineString.Split(_delimiter);
+            var outCells = new List<string>();
+
+            for(var n = 0; n < cells.Length; n++)
+            {
+                string cell = cells[n];
+                string buffer = "";
+
+                // If cell begins with a quote, but doesn't end with one, then we need to merge these cells
+                if(cell.StartsWith("\"") && !cell.EndsWith("\""))
+                {
+                    while(!cells[n].EndsWith("\""))
+                    {
+                        buffer += cells[n++] + _delimiter;
+                    }
+
+                    if(n < cells.Length)
+                    {
+                        Debug.Assert(cells[n].EndsWith("\""));
+
+                        buffer += cells[n];
+                    }
+                }
+                else
+                {
+                    buffer = cells[n];
+                }
+
+                // Trim quotes
+                if(buffer.StartsWith("\"") && buffer.EndsWith("\""))
+                {
+                    buffer = buffer.Substring(1, buffer.Length - 2);
+                }
+
+                outCells.Add(buffer);
+            }
+
+            return outCells.ToArray();
+        }
+
         private void ProcessDataLine(string dataString)
         {
-            // Split the line using tab character as a delimiter. Currently this does this blindly.
-            // Later on it'll handle different delimiters and quotes.
-
-            var cells = dataString.Split('\t');
+            var cells = SplitLine(dataString);
 
             if(cells.Length != _data.Columns.Count)
             {
@@ -86,12 +120,6 @@ namespace CsvMatrix.Common
             for(var cellIndex = 0; cellIndex < cells.Length; cellIndex++)
             {
                 var value = cells[cellIndex];
-
-                // Trim quotes
-                if(value.StartsWith("\"") && value.EndsWith("\""))
-                {
-                    value = value.Substring(1, value.Length - 2);
-                }
 
                 row[cellIndex] = value;
             }

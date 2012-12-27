@@ -32,7 +32,7 @@ namespace CsvMatrix.Tests
         }
 
         [Test]
-        public void TestCsvDataWithQuotes()
+        public void TestCsvDataWithSurroundingQuotes()
         {
             var testData = new StringBuilder();
 
@@ -49,6 +49,50 @@ namespace CsvMatrix.Tests
             Assert.That(csv.DataSource.Columns[3].ColumnName, Is.EqualTo("Gender"));
             Assert.That(csv.DataSource.Rows[0][0], Is.EqualTo("Dan"));
             Assert.That(csv.DataSource.Rows[0][1], Is.EqualTo("Clarke"));
+            Assert.That(csv.DataSource.Rows[0][2], Is.EqualTo("34"));
+            Assert.That(csv.DataSource.Rows[0][3], Is.EqualTo("Male"));
+        }
+
+        [Test]
+        public void TestCsvDataWithQuotesInContent()
+        {
+            var testData = new StringBuilder();
+
+            testData.AppendLine("\"FirstName\"\t\"Surname\"\tAge\t\"Gender\"");
+            testData.AppendLine("\"Dan\"\t\"Cl\"arke\"\t34\t\"Male\"");
+
+            var csv = Utility.CreateCsvObject(testData);
+
+            Assert.That(csv.DataSource.Columns.Count, Is.EqualTo(4));
+            Assert.That(csv.DataSource.Rows.Count, Is.EqualTo(1));
+            Assert.That(csv.DataSource.Columns[0].ColumnName, Is.EqualTo("FirstName"));
+            Assert.That(csv.DataSource.Columns[1].ColumnName, Is.EqualTo("Surname"));
+            Assert.That(csv.DataSource.Columns[2].ColumnName, Is.EqualTo("Age"));
+            Assert.That(csv.DataSource.Columns[3].ColumnName, Is.EqualTo("Gender"));
+            Assert.That(csv.DataSource.Rows[0][0], Is.EqualTo("Dan"));
+            Assert.That(csv.DataSource.Rows[0][1], Is.EqualTo("Cl\"arke"));
+            Assert.That(csv.DataSource.Rows[0][2], Is.EqualTo("34"));
+            Assert.That(csv.DataSource.Rows[0][3], Is.EqualTo("Male"));
+        }
+
+        [Test]
+        public void TestCsvDataWithDelimiterInContent()
+        {
+            var testData = new StringBuilder();
+
+            testData.AppendLine("\"FirstName\"\t\"Surname\"\tAge\t\"Gender\"");
+            testData.AppendLine("\"Dan\"\t\"Cl\tarke\"\t34\t\"Male\"");
+
+            var csv = Utility.CreateCsvObject(testData);
+
+            Assert.That(csv.DataSource.Columns.Count, Is.EqualTo(4));
+            Assert.That(csv.DataSource.Rows.Count, Is.EqualTo(1));
+            Assert.That(csv.DataSource.Columns[0].ColumnName, Is.EqualTo("FirstName"));
+            Assert.That(csv.DataSource.Columns[1].ColumnName, Is.EqualTo("Surname"));
+            Assert.That(csv.DataSource.Columns[2].ColumnName, Is.EqualTo("Age"));
+            Assert.That(csv.DataSource.Columns[3].ColumnName, Is.EqualTo("Gender"));
+            Assert.That(csv.DataSource.Rows[0][0], Is.EqualTo("Dan"));
+            Assert.That(csv.DataSource.Rows[0][1], Is.EqualTo("Cl\tarke"));
             Assert.That(csv.DataSource.Rows[0][2], Is.EqualTo("34"));
             Assert.That(csv.DataSource.Rows[0][3], Is.EqualTo("Male"));
         }
