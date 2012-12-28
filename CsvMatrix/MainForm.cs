@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Data;
 using System.Windows.Forms;
 using CsvMatrix.Common;
+using System.Linq;
 
 namespace CsvMatrix
 {
@@ -36,6 +38,7 @@ namespace CsvMatrix
                 dataGridView_Main.DataSource = _currentCsv.DataSource;
 
                 UpdateMenuStates();
+                UpdateStatusBar();
 
                 _currentFilename = ofd.FileName;
             }
@@ -87,6 +90,7 @@ namespace CsvMatrix
                 dataGridView_Main.DataSource = null;
 
                 UpdateMenuStates();
+                UpdateStatusBar();
             }
         }
 
@@ -144,6 +148,20 @@ namespace CsvMatrix
             }
         }
 
+        private void UpdateStatusBar()
+        {
+            statusStrip_Main.Items.Clear();
+
+            if(_currentCsv != null)
+            {
+                statusStrip_Main.Items.Add("Row Count: " + (from DataRow r in _currentCsv.DataSource.Rows
+                                                            where r.RowState != DataRowState.Deleted
+                                                            select r).Count());
+
+                statusStrip_Main.Items.Add("Column Count: " + _currentCsv.DataSource.Columns.Count);
+            }
+        }
+
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var aboutForm = new About();
@@ -156,6 +174,16 @@ namespace CsvMatrix
             {
                 e.Cancel = true;
             }
+        }
+
+        private void dataGridView_Main_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            UpdateStatusBar();
+        }
+
+        private void dataGridView_Main_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            UpdateStatusBar();
         }
     }
 }
