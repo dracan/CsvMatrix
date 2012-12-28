@@ -67,6 +67,9 @@ namespace CsvMatrix.Common
 
         private string[] SplitLine(string lineString)
         {
+            // Trim any leading and trailing whitespace characters
+            lineString = lineString.Trim();
+
             var cells = lineString.Split(_delimiter);
             var outCells = new List<string>();
 
