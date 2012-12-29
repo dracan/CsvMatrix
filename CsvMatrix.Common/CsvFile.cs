@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 
 namespace CsvMatrix.Common
@@ -38,7 +39,7 @@ namespace CsvMatrix.Common
                 {
                     if(str.Length > 0)
                     {
-                        ProcessDataLine(str);
+                        ProcessDataLine(str, sr.ReadLine);
                     }
                 }
             }
@@ -53,7 +54,7 @@ namespace CsvMatrix.Common
                 throw new InvalidCsvException();
             }
 
-            var cells = SplitLine(headerString);
+            var cells = SplitLine(headerString, null);
 
             _data = new DataTable();
 
@@ -65,32 +66,118 @@ namespace CsvMatrix.Common
             }
         }
 
-        private string[] SplitLine(string lineString)
+        private void ProcessDataLine(string dataString, Func<string> getNextLine)
+        {
+            var cells = SplitLine(dataString, getNextLine);
+
+            if(cells.Count != _data.Columns.Count)
+            {
+                throw new InvalidCsvException();
+            }
+
+            var row = _data.NewRow();
+
+            for(var cellIndex = 0; cellIndex < cells.Count; cellIndex++)
+            {
+                var value = cells[cellIndex];
+
+                row[cellIndex] = value;
+            }
+
+            _data.Rows.Add(row);
+        }
+
+        private static string ProcessLookaheadLines(Func<string> getNextLine, string cellString, List<string> cells)
+        {
+            if(getNextLine != null)
+            {
+                var nextLine = getNextLine();
+
+                if(nextLine != null)
+                {
+                    // Trim any leading and trailing whitespace characters
+                    nextLine = nextLine.Trim();
+
+                    var nextLinesCells = nextLine.Split(_delimiter);
+
+                    var n = 0;
+
+                    while(n < nextLinesCells.Length && !nextLinesCells[n].EndsWith("\""))
+                    {
+                        cellString += nextLinesCells[n] + ((n == nextLinesCells.Length - 1) ? "\n" : _delimiter.ToString(CultureInfo.InvariantCulture));
+                        n++;
+                    }
+
+                    if(n < nextLinesCells.Length)
+                    {
+                        Debug.Assert(nextLinesCells[n].EndsWith("\""));
+
+                        cellString += nextLinesCells[n];
+
+                        n++;
+
+                        for(var j = n; j < nextLinesCells.Length; j++)
+                        {
+                            var cell = nextLinesCells[j];
+
+                            // Trim quotes
+                            if(cell.StartsWith("\"") && cell.EndsWith("\""))
+                            {
+                                cell = cell.Substring(1, cell.Length - 2);
+                            }
+
+                            cells.Add(cell);
+                        }
+                    }
+                    else
+                    {
+                        cellString = ProcessLookaheadLines(getNextLine, cellString, cells);
+                    }
+                }
+            }
+
+            return cellString;
+        }
+
+        private static IList<string> SplitLine(string lineString, Func<string> getNextLine)
         {
             // Trim any leading and trailing whitespace characters
             lineString = lineString.Trim();
 
-            var cells = lineString.Split(_delimiter);
+            var cells = new List<string>();
+            
+            cells.AddRange(lineString.Split(_delimiter));
+
             var outCells = new List<string>();
 
-            for(var n = 0; n < cells.Length; n++)
+            for(var n = 0; n < cells.Count; n++)
             {
                 string cell = cells[n];
                 string buffer = "";
+                var lookaheadCells = new List<string>();
 
-                // If cell begins with a quote, but doesn't end with one, then we need to merge these cells
+                // If cell begins with a quote, but doesn't end with one, then we need to merge these cells.
+                // This also handles merging cells with line breaks by getting "lookahead" lines from the CSV
+                // file (via an event handler passed in as a parameter). The ProcessLookaheadLines internally
+                // recursively calls itself if there is more than one linebreak within the same CSV cell.
+
                 if(cell.StartsWith("\"") && !cell.EndsWith("\""))
                 {
-                    while(!cells[n].EndsWith("\""))
+                    while(n < cells.Count && !cells[n].EndsWith("\""))
                     {
-                        buffer += cells[n++] + _delimiter;
+                        buffer += cells[n] + ((n == cells.Count - 1) ? "\n" : _delimiter.ToString(CultureInfo.InvariantCulture));
+                        n++;
                     }
 
-                    if(n < cells.Length)
+                    if(n < cells.Count)
                     {
                         Debug.Assert(cells[n].EndsWith("\""));
 
                         buffer += cells[n];
+                    }
+                    else
+                    {
+                        buffer = ProcessLookaheadLines(getNextLine, buffer, lookaheadCells);
                     }
                 }
                 else
@@ -105,30 +192,10 @@ namespace CsvMatrix.Common
                 }
 
                 outCells.Add(buffer);
+                outCells.AddRange(lookaheadCells);
             }
 
-            return outCells.ToArray();
-        }
-
-        private void ProcessDataLine(string dataString)
-        {
-            var cells = SplitLine(dataString);
-
-            if(cells.Length != _data.Columns.Count)
-            {
-                throw new InvalidCsvException();
-            }
-
-            var row = _data.NewRow();
-
-            for(var cellIndex = 0; cellIndex < cells.Length; cellIndex++)
-            {
-                var value = cells[cellIndex];
-
-                row[cellIndex] = value;
-            }
-
-            _data.Rows.Add(row);
+            return outCells;
         }
 
         public void Save(string filename)
