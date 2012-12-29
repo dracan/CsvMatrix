@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace CsvMatrix
@@ -23,6 +24,13 @@ namespace CsvMatrix
                        };
 
             linkLabel_GithubUrl.Links.Add(link);
+
+            var assembly = Assembly.GetExecutingAssembly();
+            var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+            label_VersionNumber.Text = string.Format("Version {0}.{1}.{2}",
+                                                     fileVersionInfo.FileMajorPart,
+                                                     fileVersionInfo.FileMinorPart,
+                                                     fileVersionInfo.FileBuildPart);
         }
 
         private void linkLabel_GithubUrl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
