@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "CsvMatrix"
-#define MyAppVersion "0.1"
+#define MyAppVersion "1.0.0"
 #define MyAppPublisher "Dan Clarke"
 #define MyAppURL "https://github.com/dracan/CsvMatrix"
 #define MyAppExeName "CsvMatrix.exe"
