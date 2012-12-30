@@ -2,5 +2,6 @@
 */obj/*
 *.suo
 *.swp
+*.bak
 *.DotSettings.user
 Installation/Output/
