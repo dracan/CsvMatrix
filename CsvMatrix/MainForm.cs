@@ -20,6 +20,8 @@ namespace CsvMatrix
         private void MainForm_Load(object sender, EventArgs e)
         {
             UpdateMenuStates();
+
+            Settings.Settings.LoadWindowSettings(this);
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -174,6 +176,8 @@ namespace CsvMatrix
             {
                 e.Cancel = true;
             }
+
+            Settings.Settings.SaveWindowSettings(this);
         }
 
         private void dataGridView_Main_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
