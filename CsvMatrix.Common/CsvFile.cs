@@ -198,8 +198,23 @@ namespace CsvMatrix.Common
             return outCells;
         }
 
-        public void Save(string filename)
+        /// <summary>
+        /// Saves the CSV file
+        /// </summary>
+        /// <param name="filename">Destination CSV filename</param>
+        /// <param name="columns">List of columns indices to save. This is passed is because the user may have changed the sort order, or they may just saving a subset of columns</param>
+        public void Save(string filename, IList<int> columns = null)
         {
+            if(columns == null)
+            {
+                // No column order / subset has been specified, so use all the columns in the order in the main datatable
+                columns = new List<int>();
+
+                for(var c = 0; c < _data.Columns.Count; c++)
+                {
+                    columns.Add(c);
+                }
+            }
             using(var fs = new FileStream(filename, FileMode.Create, FileAccess.Write))
             {
                 using(var sw = new StreamWriter(fs))
@@ -208,7 +223,7 @@ namespace CsvMatrix.Common
 
                     var firstColumn = true;
 
-                    foreach(DataColumn column in _data.Columns)
+                    foreach(var columnIndex in columns)
                     {
                         if(firstColumn)
                         {
@@ -219,7 +234,7 @@ namespace CsvMatrix.Common
                             sw.Write(_delimiter);
                         }
 
-                        sw.Write(column.ColumnName);
+                        sw.Write(_data.Columns[columnIndex].ColumnName);
                     }
 
                     sw.WriteLine();
@@ -230,7 +245,7 @@ namespace CsvMatrix.Common
                     {
                         var firstCell = true;
 
-                        foreach(var cell in row.ItemArray)
+                        foreach(var columnIndex in columns)
                         {
                             if(firstCell)
                             {
@@ -241,7 +256,7 @@ namespace CsvMatrix.Common
                                 sw.Write(_delimiter);
                             }
 
-                            sw.Write(cell);
+                            sw.Write(row[columnIndex]);
                         }
 
                         sw.WriteLine();

@@ -11,6 +11,7 @@ namespace CsvMatrix
     {
         private CsvFile _currentCsv;
         private string _currentFilename;
+        private bool _modified;
 
         public MainForm()
         {
@@ -38,6 +39,7 @@ namespace CsvMatrix
                 _currentCsv = new CsvFile(ofd.FileName);
 
                 dataGridView_Main.DataSource = _currentCsv.DataSource;
+                _modified = false;
 
                 UpdateMenuStates();
                 UpdateStatusBar();
@@ -48,7 +50,7 @@ namespace CsvMatrix
 
         private bool CheckForChangesBeforeClosing()
         {
-            if(_currentCsv != null && _currentCsv.HasChanges)
+            if(_currentCsv != null && (_currentCsv.HasChanges || _modified))
             {
                 switch(MessageBox.Show("Do you want to save your changes?", "Save Changes?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
                 {
@@ -90,6 +92,7 @@ namespace CsvMatrix
                 _currentCsv = null;
                 _currentFilename = null;
                 dataGridView_Main.DataSource = null;
+                _modified = false;
 
                 UpdateMenuStates();
                 UpdateStatusBar();
@@ -114,7 +117,11 @@ namespace CsvMatrix
             }
             else
             {
-                _currentCsv.Save(_currentFilename);
+                _currentCsv.Save(_currentFilename, (from DataGridViewColumn c in dataGridView_Main.Columns
+                                                    orderby c.DisplayIndex
+                                                    select c.Index).ToList());
+
+                _modified = false;
             }
         }
 
@@ -129,8 +136,13 @@ namespace CsvMatrix
 
             if(saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                _currentCsv.Save(saveFileDialog.FileName);
+                _currentCsv.Save(saveFileDialog.FileName, (from DataGridViewColumn c in dataGridView_Main.Columns
+                                                           orderby c.DisplayIndex
+                                                           select c.Index).ToList());
+
                 _currentFilename = saveFileDialog.FileName;
+
+                _modified = false;
             }
         }
 
@@ -188,6 +200,11 @@ namespace CsvMatrix
         private void dataGridView_Main_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
             UpdateStatusBar();
+        }
+
+        private void dataGridView_Main_ColumnDisplayIndexChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            _modified = true;
         }
     }
 }

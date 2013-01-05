@@ -45,6 +45,7 @@
             // 
             // dataGridView_Main
             // 
+            this.dataGridView_Main.AllowUserToOrderColumns = true;
             this.dataGridView_Main.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView_Main.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_Main.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -52,6 +53,7 @@
             this.dataGridView_Main.Name = "dataGridView_Main";
             this.dataGridView_Main.Size = new System.Drawing.Size(833, 479);
             this.dataGridView_Main.TabIndex = 0;
+            this.dataGridView_Main.ColumnDisplayIndexChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dataGridView_Main_ColumnDisplayIndexChanged);
             this.dataGridView_Main.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView_Main_RowsAdded);
             this.dataGridView_Main.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView_Main_RowsRemoved);
             // 
