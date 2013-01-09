@@ -226,5 +226,24 @@ namespace CsvMatrix.Tests
 
             Assert.That(fileData, Is.EqualTo(testData.ToString()));
         }
+
+        [Test]
+        public void TestSaveCsvWithDelimiterInCellValue()
+        {
+            var testData = new StringBuilder();
+
+            testData.AppendLine("FirstName\tSurname\tAge\tGender");
+            testData.AppendLine("Dan\t\"Cla\trke\"\t34\tMale");
+
+            var csv = Utility.CreateCsvObject(testData);
+
+            var tempFilename = Path.GetTempFileName();
+
+            csv.Save(tempFilename);
+
+            var fileData = File.ReadAllText(tempFilename);
+
+            Assert.That(fileData, Is.EqualTo(testData.ToString()));
+        }
     }
 }

@@ -256,7 +256,16 @@ namespace CsvMatrix.Common
                                 sw.Write(_delimiter);
                             }
 
-                            sw.Write(row[columnIndex]);
+                            var value = row[columnIndex];
+
+                            if(value.ToString().Contains(_delimiter.ToString(CultureInfo.InvariantCulture)))
+                            {
+                                sw.Write("\"" + row[columnIndex] + "\"");
+                            }
+                            else
+                            {
+                                sw.Write(row[columnIndex]);
+                            }
                         }
 
                         sw.WriteLine();
