@@ -10,18 +10,30 @@ namespace CsvMatrix.Common
     public class CsvFile : IDisposable
     {
         private DataTable _data;
-        private const char _delimiter = '\t'; //(todo) Support different delimiters
 
-        public CsvFile(string filename)
+        public CsvProperties Properties { get; set; }
+
+        public CsvFile(CsvProperties properties = null)
         {
+            Properties = properties ?? new CsvProperties();
+        }
+
+        public CsvFile(string filename, CsvProperties properties = null)
+        {
+            Properties = properties ?? new CsvProperties();
+
             using(var fs = new FileStream(filename, FileMode.Open, FileAccess.Read))
             {
                 LoadCsvFile(fs);
             }
         }
 
-        public CsvFile(MemoryStream stream)
+        public CsvFile(MemoryStream stream, CsvProperties properties = null)
         {
+            Properties = properties ?? new CsvProperties();
+
+            Properties = new CsvProperties();
+
             LoadCsvFile(stream);
         }
 
@@ -87,7 +99,7 @@ namespace CsvMatrix.Common
             _data.Rows.Add(row);
         }
 
-        private static string ProcessLookaheadLines(Func<string> getNextLine, string cellString, List<string> cells)
+        private string ProcessLookaheadLines(Func<string> getNextLine, string cellString, List<string> cells)
         {
             if(getNextLine != null)
             {
@@ -98,13 +110,13 @@ namespace CsvMatrix.Common
                     // Trim any leading and trailing whitespace characters
                     nextLine = nextLine.Trim();
 
-                    var nextLinesCells = nextLine.Split(_delimiter);
+                    var nextLinesCells = nextLine.Split(new[] { Properties.Delimiter }, StringSplitOptions.None);
 
                     var n = 0;
 
                     while(n < nextLinesCells.Length && !nextLinesCells[n].EndsWith("\""))
                     {
-                        cellString += nextLinesCells[n] + ((n == nextLinesCells.Length - 1) ? "\n" : _delimiter.ToString(CultureInfo.InvariantCulture));
+                        cellString += nextLinesCells[n] + ((n == nextLinesCells.Length - 1) ? "\n" : Properties.Delimiter.ToString(CultureInfo.InvariantCulture));
                         n++;
                     }
 
@@ -139,14 +151,14 @@ namespace CsvMatrix.Common
             return cellString;
         }
 
-        private static IList<string> SplitLine(string lineString, Func<string> getNextLine)
+        private IList<string> SplitLine(string lineString, Func<string> getNextLine)
         {
             // Trim any leading and trailing whitespace characters
             lineString = lineString.Trim();
 
             var cells = new List<string>();
             
-            cells.AddRange(lineString.Split(_delimiter));
+            cells.AddRange(lineString.Split(new[] { Properties.Delimiter }, StringSplitOptions.None));
 
             var outCells = new List<string>();
 
@@ -165,7 +177,7 @@ namespace CsvMatrix.Common
                 {
                     while(n < cells.Count && !cells[n].EndsWith("\""))
                     {
-                        buffer += cells[n] + ((n == cells.Count - 1) ? "\n" : _delimiter.ToString(CultureInfo.InvariantCulture));
+                        buffer += cells[n] + ((n == cells.Count - 1) ? "\n" : Properties.Delimiter.ToString(CultureInfo.InvariantCulture));
                         n++;
                     }
 
@@ -231,7 +243,7 @@ namespace CsvMatrix.Common
                         }
                         else
                         {
-                            sw.Write(_delimiter);
+                            sw.Write(Properties.Delimiter);
                         }
 
                         sw.Write(_data.Columns[columnIndex].ColumnName);
@@ -253,12 +265,12 @@ namespace CsvMatrix.Common
                             }
                             else
                             {
-                                sw.Write(_delimiter);
+                                sw.Write(Properties.Delimiter);
                             }
 
                             var value = row[columnIndex];
 
-                            if(value.ToString().Contains(_delimiter.ToString(CultureInfo.InvariantCulture)))
+                            if(value.ToString().Contains(Properties.Delimiter.ToString(CultureInfo.InvariantCulture)))
                             {
                                 sw.Write("\"" + row[columnIndex] + "\"");
                             }

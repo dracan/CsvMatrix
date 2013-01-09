@@ -27,6 +27,11 @@ namespace CsvMatrix
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            OpenFile();
+        }
+
+        private void OpenFile()
+        {
             var ofd = new OpenFileDialog
                           {
                               Filter = "csv files (*.csv)|*.csv|txt files (*.txt)|*.txt|All files (*.*)|*.*",
@@ -36,15 +41,20 @@ namespace CsvMatrix
 
             if(ofd.ShowDialog() == DialogResult.OK)
             {
-                _currentCsv = new CsvFile(ofd.FileName);
+                var frmCsvProperties = new Frm_CsvProperties();
 
-                dataGridView_Main.DataSource = _currentCsv.DataSource;
-                _modified = false;
+                if(frmCsvProperties.ShowDialog() == DialogResult.OK)
+                {
+                    _currentCsv = new CsvFile(ofd.FileName, frmCsvProperties.CsvProperties);
 
-                UpdateMenuStates();
-                UpdateStatusBar();
+                    dataGridView_Main.DataSource = _currentCsv.DataSource;
+                    _modified = false;
 
-                _currentFilename = ofd.FileName;
+                    UpdateMenuStates();
+                    UpdateStatusBar();
+
+                    _currentFilename = ofd.FileName;
+                }
             }
         }
 
@@ -152,12 +162,14 @@ namespace CsvMatrix
             {
                 saveToolStripMenuItem.Enabled = false;
                 saveAsToolStripMenuItem.Enabled = false;
+                propertiesToolStripMenuItem.Enabled = false;
                 closeToolStripMenuItem.Enabled = false;
             }
             else
             {
                 saveToolStripMenuItem.Enabled = true;
                 saveAsToolStripMenuItem.Enabled = true;
+                propertiesToolStripMenuItem.Enabled = true;
                 closeToolStripMenuItem.Enabled = true;
             }
         }
@@ -205,6 +217,16 @@ namespace CsvMatrix
         private void dataGridView_Main_ColumnDisplayIndexChanged(object sender, DataGridViewColumnEventArgs e)
         {
             _modified = true;
+        }
+
+        private void propertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frmProperties = new Frm_CsvProperties { CsvProperties = _currentCsv.Properties };
+
+            if(frmProperties.ShowDialog() == DialogResult.OK)
+            {
+                _currentCsv.Properties = frmProperties.CsvProperties;
+            }
         }
     }
 }

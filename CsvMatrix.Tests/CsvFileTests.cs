@@ -139,7 +139,7 @@ namespace CsvMatrix.Tests
             const string testLine = "\"Dan\"\t\"Clarke\"\t34\t\"Male\"";
             var callback = new Func<string>(() => "");
 
-            var result = (List<string>)Utility.RunStaticMethod(typeof(CsvFile), "SplitLine", new object[] {testLine, callback});
+            var result = (List<string>)Utility.RunMethod(new CsvFile(), "SplitLine", new object[] {testLine, callback});
 
             Assert.That(result.Count, Is.EqualTo(4));
             Assert.That(result[0], Is.EqualTo("Dan"));
@@ -155,7 +155,7 @@ namespace CsvMatrix.Tests
             const string testLine2 = "ke\"\t34\t\"Male\"";
             var callback = new Func<string>(() => testLine2);
 
-            var result = (List<string>)Utility.RunStaticMethod(typeof(CsvFile), "SplitLine", new object[] {testLine, callback});
+            var result = (List<string>)Utility.RunMethod(new CsvFile(), "SplitLine", new object[] {testLine, callback});
 
             Assert.That(result.Count, Is.EqualTo(4));
             Assert.That(result[0], Is.EqualTo("Dan"));

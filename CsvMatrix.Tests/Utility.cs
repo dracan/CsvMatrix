@@ -38,7 +38,7 @@ namespace CsvMatrix.Tests
         public static object RunMethod(object instance, string methodName, object[] methodParams)
         {
             var t = instance.GetType();
-            var m = t.GetMethod(methodName, BindingFlags.Public | BindingFlags.NonPublic);
+            var m = t.GetMethod(methodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
             if(m == null)
             {
