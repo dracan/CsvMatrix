@@ -18,26 +18,41 @@ namespace CsvMatrix.Common
             Properties = properties ?? new CsvProperties();
         }
 
-        public CsvFile(string filename, CsvProperties properties = null)
+        public bool Load(string filename)
         {
-            Properties = properties ?? new CsvProperties();
-
             using(var fs = new FileStream(filename, FileMode.Open, FileAccess.Read))
             {
-                LoadCsvFile(fs);
+                return LoadCsvFile(fs);
             }
         }
 
-        public CsvFile(MemoryStream stream, CsvProperties properties = null)
+        public bool Load(MemoryStream stream)
         {
-            Properties = properties ?? new CsvProperties();
-
-            Properties = new CsvProperties();
-
-            LoadCsvFile(stream);
+            return LoadCsvFile(stream);
         }
 
-        private void LoadCsvFile(Stream stream)
+        public static string DetermineDelimiter(string filename)
+        {
+            var delimiters = new[] {"\t", ",", ";", "|"};
+
+            foreach(var delimiter in delimiters)
+            {
+                using(var fs = new FileStream(filename, FileMode.Open, FileAccess.Read))
+                {
+                    using(var csv = new CsvFile(new CsvProperties {Delimiter = delimiter, MaxRowCount = 5}))
+                    {
+                        if(csv.LoadCsvFile(fs) && csv.DataSource.Columns.Count > 1)
+                        {
+                            return delimiter;
+                        }
+                    }
+                }
+            }
+
+            return CsvProperties.DefaultDelimiter;
+        }
+
+        private bool LoadCsvFile(Stream stream)
         {
             using(var sr = new StreamReader(stream))
             {
@@ -45,25 +60,42 @@ namespace CsvMatrix.Common
 
                 string str = sr.ReadLine();
 
-                ProcessHeaderLine(str);
+                if(!ProcessHeaderLine(str))
+                {
+                    return false;
+                }
+
+                var rowCount = 0;
 
                 while((str = sr.ReadLine()) != null)
                 {
                     if(str.Length > 0)
                     {
-                        ProcessDataLine(str, sr.ReadLine);
+                        if(!ProcessDataLine(str, sr.ReadLine))
+                        {
+                            return false;
+                        }
+
+                        if((Properties.MaxRowCount != -1) && (rowCount > Properties.MaxRowCount))
+                        {
+                            break;
+                        }
+
+                        rowCount++;
                     }
                 }
             }
 
             _data.AcceptChanges();
+
+            return true;
         }
 
-        private void ProcessHeaderLine(string headerString)
+        private bool ProcessHeaderLine(string headerString)
         {
             if(headerString == null)
             {
-                throw new InvalidCsvException();
+                return false;
             }
 
             var cells = SplitLine(headerString, null);
@@ -76,15 +108,17 @@ namespace CsvMatrix.Common
 
                 _data.Columns.Add(value);
             }
+
+            return true;
         }
 
-        private void ProcessDataLine(string dataString, Func<string> getNextLine)
+        private bool ProcessDataLine(string dataString, Func<string> getNextLine)
         {
             var cells = SplitLine(dataString, getNextLine);
 
             if(cells.Count != _data.Columns.Count)
             {
-                throw new InvalidCsvException();
+                return false;
             }
 
             var row = _data.NewRow();
@@ -97,6 +131,8 @@ namespace CsvMatrix.Common
             }
 
             _data.Rows.Add(row);
+
+            return true;
         }
 
         private string ProcessLookaheadLines(Func<string> getNextLine, string cellString, List<string> cells)

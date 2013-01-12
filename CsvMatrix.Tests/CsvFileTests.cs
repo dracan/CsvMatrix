@@ -20,8 +20,11 @@ namespace CsvMatrix.Tests
             testData.AppendLine("Anna\tClarke\t30\tFemale");
             testData.AppendLine("Jo\tBloggs\t50\tMale");
 
-            var csv = Utility.CreateCsvObject(testData);
+            bool loadRetVal;
 
+            var csv = Utility.CreateCsvObject(testData, "\t", out loadRetVal);
+
+            Assert.That(loadRetVal, Is.True);
             Assert.That(csv.DataSource.Columns.Count, Is.EqualTo(4));
             Assert.That(csv.DataSource.Rows.Count, Is.EqualTo(3));
             Assert.That(csv.DataSource.Columns[0].ColumnName, Is.EqualTo("FirstName"));
@@ -42,8 +45,11 @@ namespace CsvMatrix.Tests
             testData.AppendLine("\"FirstName\"\t\"Surname\"\tAge\t\"Gender\"");
             testData.AppendLine("\"Dan\"\t\"Clarke\"\t34\t\"Male\"");
 
-            var csv = Utility.CreateCsvObject(testData);
+            bool loadRetVal;
 
+            var csv = Utility.CreateCsvObject(testData, "\t", out loadRetVal);
+
+            Assert.That(loadRetVal, Is.True);
             Assert.That(csv.DataSource.Columns.Count, Is.EqualTo(4));
             Assert.That(csv.DataSource.Rows.Count, Is.EqualTo(1));
             Assert.That(csv.DataSource.Columns[0].ColumnName, Is.EqualTo("FirstName"));
@@ -64,8 +70,11 @@ namespace CsvMatrix.Tests
             testData.AppendLine("\"FirstName\"\t\"Surname\"\tAge\t\"Gender\"");
             testData.AppendLine("\"Dan\"\t\"Cl\"arke\"\t34\t\"Male\"");
 
-            var csv = Utility.CreateCsvObject(testData);
+            bool loadRetValue;
 
+            var csv = Utility.CreateCsvObject(testData, "\t", out loadRetValue);
+
+            Assert.That(loadRetValue, Is.True);
             Assert.That(csv.DataSource.Columns.Count, Is.EqualTo(4));
             Assert.That(csv.DataSource.Rows.Count, Is.EqualTo(1));
             Assert.That(csv.DataSource.Columns[0].ColumnName, Is.EqualTo("FirstName"));
@@ -86,8 +95,11 @@ namespace CsvMatrix.Tests
             testData.AppendLine("\"FirstName\"\t\"Surname\"\tAge\t\"Gender\"");
             testData.AppendLine("\"Dan\"\t\"Cl\tarke\"\t34\t\"Male\"");
 
-            var csv = Utility.CreateCsvObject(testData);
+            bool loadRetValue;
 
+            var csv = Utility.CreateCsvObject(testData, "\t", out loadRetValue);
+
+            Assert.That(loadRetValue, Is.True);
             Assert.That(csv.DataSource.Columns.Count, Is.EqualTo(4));
             Assert.That(csv.DataSource.Rows.Count, Is.EqualTo(1));
             Assert.That(csv.DataSource.Columns[0].ColumnName, Is.EqualTo("FirstName"));
@@ -100,15 +112,19 @@ namespace CsvMatrix.Tests
             Assert.That(csv.DataSource.Rows[0][3], Is.EqualTo("Male"));
         }
 
-        [Test, ExpectedException(typeof(InvalidCsvException))]
-        public void TestExceptionIsThrownIfInvalidNumberOfColumnsInDataRow()
+        [Test]
+        public void TestInvalidNumberOfColumnsInDataRowReturnsFalse()
         {
             var testData = new StringBuilder();
 
             testData.AppendLine("\"FirstName\"\t\"Surname\"\tAge\t\"Gender\"");
             testData.AppendLine("\"Dan\"\t\"Clarke\"\t\"Male\"");
 
-            var csv = Utility.CreateCsvObject(testData);
+            bool loadRetValue;
+
+            var csv = Utility.CreateCsvObject(testData, "\t", out loadRetValue);
+
+            Assert.That(loadRetValue, Is.False);
         }
 
         [Test]
@@ -119,8 +135,11 @@ namespace CsvMatrix.Tests
             testData.AppendLine("\"FirstName\"\t\"Surname\"\tAge\t\"Gender\"");
             testData.AppendLine("      \t\"Dan\"\t\"Clarke\"\t34\t\"Male\"     \t    ");
 
-            var csv = Utility.CreateCsvObject(testData);
+            bool loadRetValue;
 
+            var csv = Utility.CreateCsvObject(testData, "\t", out loadRetValue);
+
+            Assert.That(loadRetValue, Is.True);
             Assert.That(csv.DataSource.Columns.Count, Is.EqualTo(4));
             Assert.That(csv.DataSource.Rows.Count, Is.EqualTo(1));
             Assert.That(csv.DataSource.Columns[0].ColumnName, Is.EqualTo("FirstName"));
@@ -136,7 +155,7 @@ namespace CsvMatrix.Tests
         [Test]
         public void TestSplitLine_Simple()
         {
-            const string testLine = "\"Dan\"\t\"Clarke\"\t34\t\"Male\"";
+            const string testLine = "\"Dan\",\"Clarke\",34,\"Male\"";
             var callback = new Func<string>(() => "");
 
             var result = (List<string>)Utility.RunMethod(new CsvFile(), "SplitLine", new object[] {testLine, callback});
@@ -151,8 +170,8 @@ namespace CsvMatrix.Tests
         [Test]
         public void TestSplitLine_Multiline()
         {
-            const string testLine = "\"Dan\"\t\"Clar";
-            const string testLine2 = "ke\"\t34\t\"Male\"";
+            const string testLine = "\"Dan\",\"Clar";
+            const string testLine2 = "ke\",34,\"Male\"";
             var callback = new Func<string>(() => testLine2);
 
             var result = (List<string>)Utility.RunMethod(new CsvFile(), "SplitLine", new object[] {testLine, callback});
@@ -172,8 +191,11 @@ namespace CsvMatrix.Tests
             testData.AppendLine("\"FirstName\"\t\"Surname\"\tAge\t\"Gender\"");
             testData.AppendLine("\"Dan\"\t\"Clar\nke\"\t34\t\"Male\"");
 
-            var csv = Utility.CreateCsvObject(testData);
+            bool loadRetValue;
 
+            var csv = Utility.CreateCsvObject(testData, "\t", out loadRetValue);
+
+            Assert.That(loadRetValue, Is.True);
             Assert.That(csv.DataSource.Columns.Count, Is.EqualTo(4));
             Assert.That(csv.DataSource.Rows.Count, Is.EqualTo(1));
             Assert.That(csv.DataSource.Columns[0].ColumnName, Is.EqualTo("FirstName"));
@@ -194,8 +216,11 @@ namespace CsvMatrix.Tests
             testData.AppendLine("\"FirstName\"\t\"Surname\"\tAge\t\"Gender\"");
             testData.AppendLine("\"Dan\"\t\"Cl\nar\nke\"\t34\t\"Male\"");
 
-            var csv = Utility.CreateCsvObject(testData);
+            bool loadRetValue;
 
+            var csv = Utility.CreateCsvObject(testData, "\t", out loadRetValue);
+
+            Assert.That(loadRetValue, Is.True);
             Assert.That(csv.DataSource.Columns.Count, Is.EqualTo(4));
             Assert.That(csv.DataSource.Rows.Count, Is.EqualTo(1));
             Assert.That(csv.DataSource.Columns[0].ColumnName, Is.EqualTo("FirstName"));
@@ -209,6 +234,70 @@ namespace CsvMatrix.Tests
         }
 
         [Test]
+        public void TestDetermineDelimiter_UsingTabs()
+        {
+            var testData = new StringBuilder();
+
+            testData.AppendLine("\"FirstName\"\t\"Surname\"\tAge\t\"Gender\"");
+            testData.AppendLine("\"Dan\"\t\"Cl\nar\nke\"\t34\t\"Male\"");
+
+            var tempFilename = Path.GetTempFileName();
+            File.WriteAllText(tempFilename, testData.ToString());
+
+            var delimiter = CsvFile.DetermineDelimiter(tempFilename);
+
+            Assert.That(delimiter, Is.EqualTo("\t"));
+        }
+
+        [Test]
+        public void TestDetermineDelimiter_UsingComma()
+        {
+            var testData = new StringBuilder();
+
+            testData.AppendLine("\"FirstName\",\"Surname\",Age,\"Gender\"");
+            testData.AppendLine("\"Dan\",\"Cl\nar\nke\",34,\"Male\"");
+
+            var tempFilename = Path.GetTempFileName();
+            File.WriteAllText(tempFilename, testData.ToString());
+
+            var delimiter = CsvFile.DetermineDelimiter(tempFilename);
+
+            Assert.That(delimiter, Is.EqualTo(","));
+        }
+
+        [Test]
+        public void TestDetermineDelimiter_UsingSemicolon()
+        {
+            var testData = new StringBuilder();
+
+            testData.AppendLine("\"FirstName\";\"Surname\";Age;\"Gender\"");
+            testData.AppendLine("\"Dan\";\"Cl\nar\nke\";34;\"Male\"");
+
+            var tempFilename = Path.GetTempFileName();
+            File.WriteAllText(tempFilename, testData.ToString());
+
+            var delimiter = CsvFile.DetermineDelimiter(tempFilename);
+
+            Assert.That(delimiter, Is.EqualTo(";"));
+        }
+
+        [Test]
+        public void TestDetermineDelimiter_UsingPipe()
+        {
+            var testData = new StringBuilder();
+
+            testData.AppendLine("\"FirstName\"|\"Surname\"|Age|\"Gender\"");
+            testData.AppendLine("\"Dan\"|\"Cl\nar\nke\"|34|\"Male\"");
+
+            var tempFilename = Path.GetTempFileName();
+            File.WriteAllText(tempFilename, testData.ToString());
+
+            var delimiter = CsvFile.DetermineDelimiter(tempFilename);
+
+            Assert.That(delimiter, Is.EqualTo("|"));
+        }
+
+        [Test]
         public void TestSaveCsv()
         {
             var testData = new StringBuilder();
@@ -216,7 +305,10 @@ namespace CsvMatrix.Tests
             testData.AppendLine("FirstName\tSurname\tAge\tGender");
             testData.AppendLine("Dan\tClarke\t34\tMale");
 
-            var csv = Utility.CreateCsvObject(testData);
+            bool loadRetValue;
+
+            var csv = Utility.CreateCsvObject(testData, "\t", out loadRetValue);
+            Assert.That(loadRetValue, Is.True);
 
             var tempFilename = Path.GetTempFileName();
 
@@ -235,7 +327,10 @@ namespace CsvMatrix.Tests
             testData.AppendLine("FirstName\tSurname\tAge\tGender");
             testData.AppendLine("Dan\t\"Cla\trke\"\t34\tMale");
 
-            var csv = Utility.CreateCsvObject(testData);
+            bool loadRetValue;
+
+            var csv = Utility.CreateCsvObject(testData, "\t", out loadRetValue);
+            Assert.That(loadRetValue, Is.True);
 
             var tempFilename = Path.GetTempFileName();
 

@@ -25,10 +25,16 @@ namespace CsvMatrix
         {
             // Setup defaults
 
-            radioButton_Comma.Checked = true;
-            textBox_Other.Enabled = false;
-
             checkBox_HeaderRow.Checked = true;
+
+            switch(CsvProperties.Delimiter)
+            {
+                case ",":   radioButton_Comma.Checked = true; break;
+                case "\t":  radioButton_Tab.Checked = true; break;
+                case ";":   radioButton_Semicolon.Checked = true; break;
+                case "|":   radioButton_Pipe.Checked = true; break;
+                default:    radioButton_Other.Checked = true; break;
+            }
         }
 
         private void button_Ok_Click(object sender, System.EventArgs e)

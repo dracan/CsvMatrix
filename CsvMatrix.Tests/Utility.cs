@@ -8,7 +8,7 @@ namespace CsvMatrix.Tests
 {
     class Utility
     {
-        public static CsvFile CreateCsvObject(StringBuilder sourceData)
+        public static CsvFile CreateCsvObject(StringBuilder sourceData, string delimiter, out bool loadRetVal)
         {
             using(var ms = new MemoryStream())
             {
@@ -18,7 +18,11 @@ namespace CsvMatrix.Tests
                     sw.Flush();
                     ms.Seek(0, SeekOrigin.Begin);
 
-                    return new CsvFile(ms);
+                    var csv = new CsvFile(new CsvProperties { Delimiter = delimiter });
+
+                    loadRetVal = csv.Load(ms);
+
+                    return csv;
                 }
             }
         }

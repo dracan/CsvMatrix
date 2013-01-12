@@ -43,9 +43,13 @@ namespace CsvMatrix
             {
                 var frmCsvProperties = new Frm_CsvProperties();
 
+                string suspectedDelimiter = CsvFile.DetermineDelimiter(ofd.FileName);
+                frmCsvProperties.CsvProperties.Delimiter = suspectedDelimiter;
+
                 if(frmCsvProperties.ShowDialog() == DialogResult.OK)
                 {
-                    _currentCsv = new CsvFile(ofd.FileName, frmCsvProperties.CsvProperties);
+                    _currentCsv = new CsvFile(frmCsvProperties.CsvProperties);
+                    _currentCsv.Load(ofd.FileName);
 
                     dataGridView_Main.DataSource = _currentCsv.DataSource;
                     _modified = false;

@@ -4,13 +4,17 @@ namespace CsvMatrix.Common
 {
     public class CsvProperties : ICloneable
     {
+        public const string DefaultDelimiter = ",";
+
         public string Delimiter { get; set; }
         public bool HasHeaderRow { get; set; }
+        public int MaxRowCount { get; set; }
 
         public CsvProperties()
         {
-            Delimiter = "\t";
+            Delimiter = DefaultDelimiter;
             HasHeaderRow = true;
+            MaxRowCount = -1;
         }
 
         public object Clone()
