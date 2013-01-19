@@ -82,6 +82,7 @@
             this.Controls.Add(this.button_OK);
             this.Controls.Add(this.textBox_ColumnName);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Frm_ColumnName";
