@@ -216,7 +216,7 @@ namespace CsvMatrix.Forms
                 propertiesToolStripMenuItem.Enabled = false;
                 closeToolStripMenuItem.Enabled = false;
                 modifyColumnsToolStripMenuItem.Enabled = false;
-                gotoColumnToolStripMenuItem.Enabled = false;
+                gotoCellToolStripMenuItem.Enabled = false;
             }
             else
             {
@@ -225,7 +225,7 @@ namespace CsvMatrix.Forms
                 propertiesToolStripMenuItem.Enabled = true;
                 closeToolStripMenuItem.Enabled = true;
                 modifyColumnsToolStripMenuItem.Enabled = true;
-                gotoColumnToolStripMenuItem.Enabled = true;
+                gotoCellToolStripMenuItem.Enabled = true;
             }
         }
 
@@ -388,7 +388,7 @@ namespace CsvMatrix.Forms
             }
         }
 
-        private void gotoColumnToolStripMenuItem_Click(object sender, EventArgs e)
+        private void gotoCellToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var frmGotoCell = new Frm_GotoCell(dataGridView_Main.Columns.Count - 1, dataGridView_Main.Rows.Count - 1);
 

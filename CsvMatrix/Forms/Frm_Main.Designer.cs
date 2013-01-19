@@ -42,6 +42,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modifyColumnsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gotoCellToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip_Main = new System.Windows.Forms.StatusStrip();
@@ -50,7 +51,6 @@
             this.beforeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.afterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteColumnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gotoColumnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Main)).BeginInit();
             this.menuStrip_Main.SuspendLayout();
             this.contextMenuStrip_RightClickColumnHeader.SuspendLayout();
@@ -156,7 +156,7 @@
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.modifyColumnsToolStripMenuItem,
-            this.gotoColumnToolStripMenuItem});
+            this.gotoCellToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "&Edit";
@@ -164,9 +164,17 @@
             // modifyColumnsToolStripMenuItem
             // 
             this.modifyColumnsToolStripMenuItem.Name = "modifyColumnsToolStripMenuItem";
-            this.modifyColumnsToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.modifyColumnsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.modifyColumnsToolStripMenuItem.Text = "Modify &Columns";
             this.modifyColumnsToolStripMenuItem.Click += new System.EventHandler(this.modifyColumnsToolStripMenuItem_Click);
+            // 
+            // gotoCellToolStripMenuItem
+            // 
+            this.gotoCellToolStripMenuItem.Name = "gotoCellToolStripMenuItem";
+            this.gotoCellToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
+            this.gotoCellToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.gotoCellToolStripMenuItem.Text = "&Goto Cell";
+            this.gotoCellToolStripMenuItem.Click += new System.EventHandler(this.gotoCellToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -179,8 +187,8 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
-            this.aboutToolStripMenuItem.Text = "&Frm_About";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // statusStrip_Main
@@ -229,14 +237,6 @@
             this.deleteColumnToolStripMenuItem.Text = "&Delete Column";
             this.deleteColumnToolStripMenuItem.Click += new System.EventHandler(this.deleteColumnToolStripMenuItem_Click);
             // 
-            // gotoColumnToolStripMenuItem
-            // 
-            this.gotoColumnToolStripMenuItem.Name = "gotoColumnToolStripMenuItem";
-            this.gotoColumnToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
-            this.gotoColumnToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
-            this.gotoColumnToolStripMenuItem.Text = "&Goto Column";
-            this.gotoColumnToolStripMenuItem.Click += new System.EventHandler(this.gotoColumnToolStripMenuItem_Click);
-            // 
             // Frm_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -283,7 +283,7 @@
         private System.Windows.Forms.ToolStripMenuItem beforeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem afterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteColumnToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem gotoColumnToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gotoCellToolStripMenuItem;
     }
 }
 
