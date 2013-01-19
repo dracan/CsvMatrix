@@ -25,6 +25,22 @@ namespace CsvMatrix
             UpdateMenuStates();
 
             Settings.Settings.LoadWindowSettings(this);
+
+            ProcessCommandLineArguments();
+        }
+
+        private void ProcessCommandLineArguments()
+        {
+            var commandLineArgs = Environment.GetCommandLineArgs();
+
+            var filenameToOpen = (from x in commandLineArgs
+                                  where !x.StartsWith("-") && !x.StartsWith("/") && !x.Contains(".exe")
+                                  select x).FirstOrDefault();
+
+            if(!string.IsNullOrEmpty(filenameToOpen))
+            {
+                OpenFile(filenameToOpen);
+            }
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -43,46 +59,51 @@ namespace CsvMatrix
 
             if(ofd.ShowDialog() == DialogResult.OK)
             {
-                var frmCsvProperties = new Frm_CsvProperties(false);
+                OpenFile(ofd.FileName);
+            }
+        }
 
-                int numColumns;
+        private void OpenFile(string filename)
+        {
+            var frmCsvProperties = new Frm_CsvProperties(false);
 
-                string suspectedDelimiter = CsvFile.DetermineDelimiter(ofd.FileName, out numColumns);
+            int numColumns;
 
-                frmCsvProperties.CsvProperties.Delimiter = suspectedDelimiter;
-                frmCsvProperties.CsvProperties.NumColumns = numColumns;
+            string suspectedDelimiter = CsvFile.DetermineDelimiter(filename, out numColumns);
 
-                if(frmCsvProperties.ShowDialog() == DialogResult.OK)
+            frmCsvProperties.CsvProperties.Delimiter = suspectedDelimiter;
+            frmCsvProperties.CsvProperties.NumColumns = numColumns;
+
+            if(frmCsvProperties.ShowDialog() == DialogResult.OK)
+            {
+                _currentCsv = new CsvFile(frmCsvProperties.CsvProperties);
+
+                if(_currentCsv.Load(filename))
                 {
-                    _currentCsv = new CsvFile(frmCsvProperties.CsvProperties);
-
-                    if(_currentCsv.Load(ofd.FileName))
+                    if(_currentCsv.LoadErrors.Count > 0)
                     {
-                        if(_currentCsv.LoadErrors.Count > 0)
-                        {
-                            var frmErrors = new Frm_Errors("File has been loaded, but the following errors were found:", _currentCsv.LoadErrors);
-                            frmErrors.ShowDialog();
-                        }
+                        var frmErrors = new Frm_Errors("File has been loaded, but the following errors were found:", _currentCsv.LoadErrors);
+                        frmErrors.ShowDialog();
+                    }
 
-                        dataGridView_Main.DataSource = _currentCsv.DataSource;
-                        _modified = false;
+                    dataGridView_Main.DataSource = _currentCsv.DataSource;
+                    _modified = false;
 
-                        UpdateMenuStates();
-                        UpdateStatusBar();
+                    UpdateMenuStates();
+                    UpdateStatusBar();
 
-                        _currentFilename = ofd.FileName;
+                    _currentFilename = filename;
+                }
+                else
+                {
+                    if(_currentCsv.LoadErrors.Count > 0)
+                    {
+                        var frmErrors = new Frm_Errors("File could not be loaded. The following errors were found:", _currentCsv.LoadErrors);
+                        frmErrors.ShowDialog();
                     }
                     else
                     {
-                        if(_currentCsv.LoadErrors.Count > 0)
-                        {
-                            var frmErrors = new Frm_Errors("File could not be loaded. The following errors were found:", _currentCsv.LoadErrors);
-                            frmErrors.ShowDialog();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Could not load file, as it appears to be invalid");
-                        }
+                        MessageBox.Show("Could not load file, as it appears to be invalid");
                     }
                 }
             }
@@ -293,7 +314,7 @@ namespace CsvMatrix
             var frmColumns = new Frm_Columns
                              {
                                  Columns = (from DataColumn c in _currentCsv.DataSource.Columns
-                                           select new ColumnInfo { ColumnName = c.ColumnName }).ToList()
+                                            select new ColumnInfo { ColumnName = c.ColumnName }).ToList()
                              };
 
             if(frmColumns.ShowDialog() == DialogResult.OK)
