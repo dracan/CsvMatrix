@@ -53,15 +53,35 @@ namespace CsvMatrix
                 if(frmCsvProperties.ShowDialog() == DialogResult.OK)
                 {
                     _currentCsv = new CsvFile(frmCsvProperties.CsvProperties);
-                    _currentCsv.Load(ofd.FileName);
 
-                    dataGridView_Main.DataSource = _currentCsv.DataSource;
-                    _modified = false;
+                    if(_currentCsv.Load(ofd.FileName))
+                    {
+                        if(_currentCsv.LoadErrors.Count > 0)
+                        {
+                            var frmErrors = new Frm_Errors("File has been loaded, but the following errors were found:", _currentCsv.LoadErrors);
+                            frmErrors.ShowDialog();
+                        }
 
-                    UpdateMenuStates();
-                    UpdateStatusBar();
+                        dataGridView_Main.DataSource = _currentCsv.DataSource;
+                        _modified = false;
 
-                    _currentFilename = ofd.FileName;
+                        UpdateMenuStates();
+                        UpdateStatusBar();
+
+                        _currentFilename = ofd.FileName;
+                    }
+                    else
+                    {
+                        if(_currentCsv.LoadErrors.Count > 0)
+                        {
+                            var frmErrors = new Frm_Errors("File could not be loaded. The following errors were found:", _currentCsv.LoadErrors);
+                            frmErrors.ShowDialog();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Could not load file, as it appears to be invalid");
+                        }
+                    }
                 }
             }
         }
@@ -73,22 +93,22 @@ namespace CsvMatrix
                 switch(MessageBox.Show("Do you want to save your changes?", "Save Changes?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
                 {
                     case DialogResult.Yes:
-                    {
-                        Save();
-                        break;
-                    }
+                        {
+                            Save();
+                            break;
+                        }
                     case DialogResult.No:
-                    {
-                        return true;
-                    }
+                        {
+                            return true;
+                        }
                     case DialogResult.Cancel:
-                    {
-                        return false;
-                    }
+                        {
+                            return false;
+                        }
                     default:
-                    {
-                        throw new InvalidEnumArgumentException();
-                    }
+                        {
+                            throw new InvalidEnumArgumentException();
+                        }
                 }
             }
 
@@ -147,9 +167,9 @@ namespace CsvMatrix
         {
             var saveFileDialog = new SaveFileDialog
                                      {
-                                        Filter = "csv files (*.csv)|*.csv|txt files (*.txt)|*.txt|All files (*.*)|*.*",
-                                        FilterIndex = 0,
-                                        RestoreDirectory = true
+                                         Filter = "csv files (*.csv)|*.csv|txt files (*.txt)|*.txt|All files (*.*)|*.*",
+                                         FilterIndex = 0,
+                                         RestoreDirectory = true
                                      };
 
             if(saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -246,7 +266,7 @@ namespace CsvMatrix
 
         private void NewCsvFile()
         {
-            var frmProperties = new Frm_CsvProperties(false, new CsvProperties {NumColumns = 10, NumRows = 10});
+            var frmProperties = new Frm_CsvProperties(false, new CsvProperties { NumColumns = 10, NumRows = 10 });
 
             if(frmProperties.ShowDialog() == DialogResult.OK)
             {

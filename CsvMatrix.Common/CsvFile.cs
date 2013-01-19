@@ -21,6 +21,12 @@ namespace CsvMatrix.Common
             }
         }
 
+        private readonly List<string> _loadErrors = new List<string>();
+        public List<string> LoadErrors
+        {
+            get { return _loadErrors; }
+        }
+
         public CsvFile(CsvProperties properties = null)
         {
             Properties = properties ?? new CsvProperties();
@@ -79,6 +85,8 @@ namespace CsvMatrix.Common
 
         private bool LoadCsvFile(Stream stream)
         {
+            LoadErrors.Clear();
+
             using(var sr = new StreamReader(stream))
             {
                 // Try to read the first line to ascertain the schema
@@ -98,7 +106,9 @@ namespace CsvMatrix.Common
                     {
                         if(!ProcessDataLine(str, sr.ReadLine))
                         {
-                            return false;
+                            rowCount++;
+                            LoadErrors.Add(String.Format("Error in row {0} - invalid number of columns. This line will be ignored.", rowCount));
+                            continue;
                         }
 
                         if((Properties.MaxRowCount != -1) && (rowCount > Properties.MaxRowCount))
@@ -120,6 +130,7 @@ namespace CsvMatrix.Common
         {
             if(headerString == null)
             {
+                LoadErrors.Add("File is an empty file");
                 return false;
             }
 
