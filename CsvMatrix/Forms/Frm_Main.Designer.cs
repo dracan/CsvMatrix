@@ -50,6 +50,7 @@
             this.beforeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.afterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteColumnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gotoColumnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Main)).BeginInit();
             this.menuStrip_Main.SuspendLayout();
             this.contextMenuStrip_RightClickColumnHeader.SuspendLayout();
@@ -154,7 +155,8 @@
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.modifyColumnsToolStripMenuItem});
+            this.modifyColumnsToolStripMenuItem,
+            this.gotoColumnToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "&Edit";
@@ -162,7 +164,7 @@
             // modifyColumnsToolStripMenuItem
             // 
             this.modifyColumnsToolStripMenuItem.Name = "modifyColumnsToolStripMenuItem";
-            this.modifyColumnsToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.modifyColumnsToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
             this.modifyColumnsToolStripMenuItem.Text = "Modify &Columns";
             this.modifyColumnsToolStripMenuItem.Click += new System.EventHandler(this.modifyColumnsToolStripMenuItem_Click);
             // 
@@ -177,7 +179,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.aboutToolStripMenuItem.Text = "&Frm_About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -209,14 +211,14 @@
             // beforeToolStripMenuItem
             // 
             this.beforeToolStripMenuItem.Name = "beforeToolStripMenuItem";
-            this.beforeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.beforeToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.beforeToolStripMenuItem.Text = "&Before";
             this.beforeToolStripMenuItem.Click += new System.EventHandler(this.beforeToolStripMenuItem_Click);
             // 
             // afterToolStripMenuItem
             // 
             this.afterToolStripMenuItem.Name = "afterToolStripMenuItem";
-            this.afterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.afterToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.afterToolStripMenuItem.Text = "&After";
             this.afterToolStripMenuItem.Click += new System.EventHandler(this.afterToolStripMenuItem_Click);
             // 
@@ -226,6 +228,14 @@
             this.deleteColumnToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.deleteColumnToolStripMenuItem.Text = "&Delete Column";
             this.deleteColumnToolStripMenuItem.Click += new System.EventHandler(this.deleteColumnToolStripMenuItem_Click);
+            // 
+            // gotoColumnToolStripMenuItem
+            // 
+            this.gotoColumnToolStripMenuItem.Name = "gotoColumnToolStripMenuItem";
+            this.gotoColumnToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
+            this.gotoColumnToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.gotoColumnToolStripMenuItem.Text = "&Goto Column";
+            this.gotoColumnToolStripMenuItem.Click += new System.EventHandler(this.gotoColumnToolStripMenuItem_Click);
             // 
             // Frm_Main
             // 
@@ -273,6 +283,7 @@
         private System.Windows.Forms.ToolStripMenuItem beforeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem afterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteColumnToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gotoColumnToolStripMenuItem;
     }
 }
 

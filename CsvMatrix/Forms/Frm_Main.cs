@@ -216,6 +216,7 @@ namespace CsvMatrix.Forms
                 propertiesToolStripMenuItem.Enabled = false;
                 closeToolStripMenuItem.Enabled = false;
                 modifyColumnsToolStripMenuItem.Enabled = false;
+                gotoColumnToolStripMenuItem.Enabled = false;
             }
             else
             {
@@ -224,6 +225,7 @@ namespace CsvMatrix.Forms
                 propertiesToolStripMenuItem.Enabled = true;
                 closeToolStripMenuItem.Enabled = true;
                 modifyColumnsToolStripMenuItem.Enabled = true;
+                gotoColumnToolStripMenuItem.Enabled = true;
             }
         }
 
@@ -383,6 +385,17 @@ namespace CsvMatrix.Forms
             if(MessageBox.Show(String.Format("Are you sure you want to delete column '{0}'? This cannot be undone!", columnToDelete.Name), "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 _currentCsv.DataSource.Columns.RemoveAt(columnToDelete.Index);
+            }
+        }
+
+        private void gotoColumnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frmGotoCell = new Frm_GotoCell(dataGridView_Main.Columns.Count - 1, dataGridView_Main.Rows.Count - 1);
+
+            if(frmGotoCell.ShowDialog() == DialogResult.OK)
+            {
+                dataGridView_Main.CurrentCell = dataGridView_Main.Rows[frmGotoCell.RowIndex].Cells[frmGotoCell.ColumnIndex];
+                dataGridView_Main.BeginEdit(true);
             }
         }
     }

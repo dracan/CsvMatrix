@@ -78,6 +78,12 @@
     <Compile Include="Forms\Frm_Errors.Designer.cs">
       <DependentUpon>Frm_Errors.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Frm_GotoCell.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Frm_GotoCell.Designer.cs">
+      <DependentUpon>Frm_GotoCell.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Frm_Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +107,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Frm_Errors.resx">
       <DependentUpon>Frm_Errors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Frm_GotoCell.resx">
+      <DependentUpon>Frm_GotoCell.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Frm_Main.resx">
       <DependentUpon>Frm_Main.cs</DependentUpon>
