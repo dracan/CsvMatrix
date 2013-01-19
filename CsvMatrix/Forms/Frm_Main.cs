@@ -6,16 +6,16 @@ using System.Windows.Forms;
 using CsvMatrix.Common;
 using System.Linq;
 
-namespace CsvMatrix
+namespace CsvMatrix.Forms
 {
-    public partial class MainForm : Form
+    public partial class Frm_Main : Form
     {
         private CsvFile _currentCsv;
         private string _currentFilename;
         private bool _modified;
         private int _rightClickColumnIndex;
 
-        public MainForm()
+        public Frm_Main()
         {
             InitializeComponent();
         }
@@ -243,7 +243,7 @@ namespace CsvMatrix
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var aboutForm = new About();
+            var aboutForm = new Frm_About();
             aboutForm.ShowDialog();
         }
 

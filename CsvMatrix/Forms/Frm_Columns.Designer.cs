@@ -1,4 +1,4 @@
-﻿namespace CsvMatrix
+﻿namespace CsvMatrix.Forms
 {
     partial class Frm_Columns
     {

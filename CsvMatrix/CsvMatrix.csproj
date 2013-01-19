@@ -47,63 +47,63 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="About.cs">
+    <Compile Include="Forms\Frm_About.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="About.Designer.cs">
-      <DependentUpon>About.cs</DependentUpon>
+    <Compile Include="Forms\Frm_About.Designer.cs">
+      <DependentUpon>Frm_About.cs</DependentUpon>
     </Compile>
     <Compile Include="ColumnInfo.cs" />
-    <Compile Include="Frm_ColumnName.cs">
+    <Compile Include="Forms\Frm_ColumnName.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frm_ColumnName.Designer.cs">
+    <Compile Include="Forms\Frm_ColumnName.Designer.cs">
       <DependentUpon>Frm_ColumnName.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frm_Columns.cs">
+    <Compile Include="Forms\Frm_Columns.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frm_Columns.Designer.cs">
+    <Compile Include="Forms\Frm_Columns.Designer.cs">
       <DependentUpon>Frm_Columns.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frm_CsvProperties.cs">
+    <Compile Include="Forms\Frm_CsvProperties.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frm_CsvProperties.Designer.cs">
+    <Compile Include="Forms\Frm_CsvProperties.Designer.cs">
       <DependentUpon>Frm_CsvProperties.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frm_Errors.cs">
+    <Compile Include="Forms\Frm_Errors.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frm_Errors.Designer.cs">
+    <Compile Include="Forms\Frm_Errors.Designer.cs">
       <DependentUpon>Frm_Errors.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.cs">
+    <Compile Include="Forms\Frm_Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="Forms\Frm_Main.Designer.cs">
+      <DependentUpon>Frm_Main.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\Settings.cs" />
-    <EmbeddedResource Include="About.resx">
-      <DependentUpon>About.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Frm_About.resx">
+      <DependentUpon>Frm_About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frm_ColumnName.resx">
+    <EmbeddedResource Include="Forms\Frm_ColumnName.resx">
       <DependentUpon>Frm_ColumnName.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Columns.resx">
+    <EmbeddedResource Include="Forms\Frm_Columns.resx">
       <DependentUpon>Frm_Columns.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frm_CsvProperties.resx">
+    <EmbeddedResource Include="Forms\Frm_CsvProperties.resx">
       <DependentUpon>Frm_CsvProperties.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Errors.resx">
+    <EmbeddedResource Include="Forms\Frm_Errors.resx">
       <DependentUpon>Frm_Errors.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Frm_Main.resx">
+      <DependentUpon>Frm_Main.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

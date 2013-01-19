@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace CsvMatrix
+namespace CsvMatrix.Forms
 {
     public partial class Frm_Columns : Form
     {

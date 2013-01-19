@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using CsvMatrix.Common;
 
-namespace CsvMatrix
+namespace CsvMatrix.Forms
 {
     public partial class Frm_CsvProperties : Form
     {

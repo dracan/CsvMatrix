@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using CsvMatrix.Forms;
 
 namespace CsvMatrix
 {
@@ -15,7 +16,7 @@ namespace CsvMatrix
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(new Frm_Main());
         }
     }
 }

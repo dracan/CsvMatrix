@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace CsvMatrix
+namespace CsvMatrix.Forms
 {
     public partial class Frm_ColumnName : Form
     {
