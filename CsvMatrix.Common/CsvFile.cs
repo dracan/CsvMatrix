@@ -464,5 +464,11 @@ namespace CsvMatrix.Common
                 }
             }
         }
+
+        public void InsertColumn(int columnIndex, string name)
+        {
+            var newColumn = _data.Columns.Add(name);
+            newColumn.SetOrdinal(columnIndex);
+        }
     }
 }

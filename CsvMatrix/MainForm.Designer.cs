@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.dataGridView_Main = new System.Windows.Forms.DataGridView();
             this.menuStrip_Main = new System.Windows.Forms.MenuStrip();
@@ -44,14 +45,21 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip_Main = new System.Windows.Forms.StatusStrip();
+            this.contextMenuStrip_RightClickColumnHeader = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.insertColumnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.beforeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.afterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteColumnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Main)).BeginInit();
             this.menuStrip_Main.SuspendLayout();
+            this.contextMenuStrip_RightClickColumnHeader.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView_Main
             // 
             this.dataGridView_Main.AllowUserToOrderColumns = true;
             this.dataGridView_Main.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dataGridView_Main.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView_Main.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView_Main.Location = new System.Drawing.Point(0, 24);
@@ -59,6 +67,7 @@
             this.dataGridView_Main.Size = new System.Drawing.Size(833, 457);
             this.dataGridView_Main.TabIndex = 0;
             this.dataGridView_Main.ColumnDisplayIndexChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dataGridView_Main_ColumnDisplayIndexChanged);
+            this.dataGridView_Main.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_Main_ColumnHeaderMouseClick);
             this.dataGridView_Main.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView_Main_RowsAdded);
             this.dataGridView_Main.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView_Main_RowsRemoved);
             // 
@@ -181,6 +190,44 @@
             this.statusStrip_Main.TabIndex = 2;
             this.statusStrip_Main.Text = "statusStrip_Main";
             // 
+            // contextMenuStrip_RightClickColumnHeader
+            // 
+            this.contextMenuStrip_RightClickColumnHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.insertColumnToolStripMenuItem,
+            this.deleteColumnToolStripMenuItem});
+            this.contextMenuStrip_RightClickColumnHeader.Name = "contextMenuStrip_RightClickColumnHeader";
+            this.contextMenuStrip_RightClickColumnHeader.Size = new System.Drawing.Size(154, 70);
+            // 
+            // insertColumnToolStripMenuItem
+            // 
+            this.insertColumnToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.beforeToolStripMenuItem,
+            this.afterToolStripMenuItem});
+            this.insertColumnToolStripMenuItem.Name = "insertColumnToolStripMenuItem";
+            this.insertColumnToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.insertColumnToolStripMenuItem.Text = "&Insert Column";
+            // 
+            // beforeToolStripMenuItem
+            // 
+            this.beforeToolStripMenuItem.Name = "beforeToolStripMenuItem";
+            this.beforeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.beforeToolStripMenuItem.Text = "&Before";
+            this.beforeToolStripMenuItem.Click += new System.EventHandler(this.beforeToolStripMenuItem_Click);
+            // 
+            // afterToolStripMenuItem
+            // 
+            this.afterToolStripMenuItem.Name = "afterToolStripMenuItem";
+            this.afterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.afterToolStripMenuItem.Text = "&After";
+            this.afterToolStripMenuItem.Click += new System.EventHandler(this.afterToolStripMenuItem_Click);
+            // 
+            // deleteColumnToolStripMenuItem
+            // 
+            this.deleteColumnToolStripMenuItem.Name = "deleteColumnToolStripMenuItem";
+            this.deleteColumnToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.deleteColumnToolStripMenuItem.Text = "&Delete Column";
+            this.deleteColumnToolStripMenuItem.Click += new System.EventHandler(this.deleteColumnToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -199,6 +246,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Main)).EndInit();
             this.menuStrip_Main.ResumeLayout(false);
             this.menuStrip_Main.PerformLayout();
+            this.contextMenuStrip_RightClickColumnHeader.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -221,6 +269,11 @@
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem modifyColumnsToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_RightClickColumnHeader;
+        private System.Windows.Forms.ToolStripMenuItem insertColumnToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem beforeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem afterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteColumnToolStripMenuItem;
     }
 }
 

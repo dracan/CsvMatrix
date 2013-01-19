@@ -13,6 +13,7 @@ namespace CsvMatrix
         private CsvFile _currentCsv;
         private string _currentFilename;
         private bool _modified;
+        private int _rightClickColumnIndex;
 
         public MainForm()
         {
@@ -319,6 +320,48 @@ namespace CsvMatrix
                 {
                     _currentCsv.DataSource.Columns.Remove(columnToDelete);
                 }
+            }
+        }
+
+        private void dataGridView_Main_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Right)
+            {
+                contextMenuStrip_RightClickColumnHeader.Show(Cursor.Position);
+
+                _rightClickColumnIndex = e.ColumnIndex;
+            }
+        }
+
+        private void beforeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertColumn(_rightClickColumnIndex);
+        }
+
+        private void afterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertColumn(_rightClickColumnIndex + 1);
+        }
+
+        private void InsertColumn(int columnIndex)
+        {
+            var frmColumnName = new Frm_ColumnName();
+
+            if(frmColumnName.ShowDialog() == DialogResult.OK)
+            {
+                _currentCsv.DataSource.Columns.Add(frmColumnName.ColumnName);
+
+                dataGridView_Main.Columns[dataGridView_Main.Columns.Count - 1].DisplayIndex = columnIndex;
+            }
+        }
+
+        private void deleteColumnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var columnToDelete = dataGridView_Main.Columns[_rightClickColumnIndex];
+
+            if(MessageBox.Show(String.Format("Are you sure you want to delete column '{0}'? This cannot be undone!", columnToDelete.Name), "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                _currentCsv.DataSource.Columns.RemoveAt(columnToDelete.Index);
             }
         }
     }
