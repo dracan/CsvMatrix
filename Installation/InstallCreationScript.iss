@@ -22,7 +22,7 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
-OutputBaseFilename=setup
+OutputBaseFilename=CsvMatrixSetup
 Compression=lzma
 SolidCompression=yes
 
