@@ -113,7 +113,7 @@ namespace CsvMatrix.Tests
         }
 
         [Test]
-        public void TestInvalidNumberOfColumnsInDataRowReturnsFalse()
+        public void TestInvalidNumberOfColumnsInDataRowReturnsTrueButWithErrorMessage()
         {
             var testData = new StringBuilder();
 
@@ -124,7 +124,8 @@ namespace CsvMatrix.Tests
 
             var csv = Utility.CreateCsvObject(testData, "\t", out loadRetValue);
 
-            Assert.That(loadRetValue, Is.False);
+            Assert.That(loadRetValue, Is.True);
+            Assert.That(csv.LoadErrors.Count == 1);
         }
 
         [Test]
