@@ -9,6 +9,8 @@ namespace CsvMatrix.Common
         public string Delimiter { get; set; }
         public bool HasHeaderRow { get; set; }
         public int MaxRowCount { get; set; }
+        public int NumColumns { get; set; }
+        public int NumRows { get; set; }
 
         public CsvProperties()
         {

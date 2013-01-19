@@ -244,9 +244,12 @@ namespace CsvMatrix.Tests
             var tempFilename = Path.GetTempFileName();
             File.WriteAllText(tempFilename, testData.ToString());
 
-            var delimiter = CsvFile.DetermineDelimiter(tempFilename);
+            int numColumns;
+
+            var delimiter = CsvFile.DetermineDelimiter(tempFilename, out numColumns);
 
             Assert.That(delimiter, Is.EqualTo("\t"));
+            Assert.That(numColumns, Is.EqualTo(4));
         }
 
         [Test]
@@ -260,7 +263,9 @@ namespace CsvMatrix.Tests
             var tempFilename = Path.GetTempFileName();
             File.WriteAllText(tempFilename, testData.ToString());
 
-            var delimiter = CsvFile.DetermineDelimiter(tempFilename);
+            int numColumns;
+
+            var delimiter = CsvFile.DetermineDelimiter(tempFilename, out numColumns);
 
             Assert.That(delimiter, Is.EqualTo(","));
         }
@@ -276,7 +281,9 @@ namespace CsvMatrix.Tests
             var tempFilename = Path.GetTempFileName();
             File.WriteAllText(tempFilename, testData.ToString());
 
-            var delimiter = CsvFile.DetermineDelimiter(tempFilename);
+            int numColumns;
+
+            var delimiter = CsvFile.DetermineDelimiter(tempFilename, out numColumns);
 
             Assert.That(delimiter, Is.EqualTo(";"));
         }
@@ -292,7 +299,9 @@ namespace CsvMatrix.Tests
             var tempFilename = Path.GetTempFileName();
             File.WriteAllText(tempFilename, testData.ToString());
 
-            var delimiter = CsvFile.DetermineDelimiter(tempFilename);
+            int numColumns;
+
+            var delimiter = CsvFile.DetermineDelimiter(tempFilename, out numColumns);
 
             Assert.That(delimiter, Is.EqualTo("|"));
         }

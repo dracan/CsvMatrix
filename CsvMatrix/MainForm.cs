@@ -41,10 +41,14 @@ namespace CsvMatrix
 
             if(ofd.ShowDialog() == DialogResult.OK)
             {
-                var frmCsvProperties = new Frm_CsvProperties();
+                var frmCsvProperties = new Frm_CsvProperties(false);
 
-                string suspectedDelimiter = CsvFile.DetermineDelimiter(ofd.FileName);
+                int numColumns;
+
+                string suspectedDelimiter = CsvFile.DetermineDelimiter(ofd.FileName, out numColumns);
+
                 frmCsvProperties.CsvProperties.Delimiter = suspectedDelimiter;
+                frmCsvProperties.CsvProperties.NumColumns = numColumns;
 
                 if(frmCsvProperties.ShowDialog() == DialogResult.OK)
                 {
@@ -225,11 +229,38 @@ namespace CsvMatrix
 
         private void propertiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var frmProperties = new Frm_CsvProperties { CsvProperties = _currentCsv.Properties };
+            _currentCsv.UpdateProperties();
+
+            var frmProperties = new Frm_CsvProperties(true) { CsvProperties = _currentCsv.Properties };
 
             if(frmProperties.ShowDialog() == DialogResult.OK)
             {
                 _currentCsv.Properties = frmProperties.CsvProperties;
+            }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewCsvFile();
+        }
+
+        private void NewCsvFile()
+        {
+            var frmProperties = new Frm_CsvProperties(false, new CsvProperties {NumColumns = 10, NumRows = 10});
+
+            if(frmProperties.ShowDialog() == DialogResult.OK)
+            {
+                _currentCsv = new CsvFile(frmProperties.CsvProperties);
+
+                _currentCsv.CreateNew(frmProperties.CsvProperties.NumColumns, frmProperties.CsvProperties.NumRows);
+
+                dataGridView_Main.DataSource = _currentCsv.DataSource;
+                _modified = false;
+
+                UpdateMenuStates();
+                UpdateStatusBar();
+
+                _currentFilename = null;
             }
         }
     }

@@ -38,7 +38,15 @@
             this.button_Ok = new System.Windows.Forms.Button();
             this.button_Cancel = new System.Windows.Forms.Button();
             this.checkBox_HeaderRow = new System.Windows.Forms.CheckBox();
+            this.groupBox_Dimensions = new System.Windows.Forms.GroupBox();
+            this.numericUpDown_NumRows = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_NumColumns = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
+            this.groupBox_Dimensions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_NumRows)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_NumColumns)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -121,10 +129,10 @@
             // 
             // button_Ok
             // 
-            this.button_Ok.Location = new System.Drawing.Point(83, 227);
+            this.button_Ok.Location = new System.Drawing.Point(261, 168);
             this.button_Ok.Name = "button_Ok";
             this.button_Ok.Size = new System.Drawing.Size(73, 23);
-            this.button_Ok.TabIndex = 2;
+            this.button_Ok.TabIndex = 4;
             this.button_Ok.Text = "OK";
             this.button_Ok.UseVisualStyleBackColor = true;
             this.button_Ok.Click += new System.EventHandler(this.button_Ok_Click);
@@ -132,10 +140,10 @@
             // button_Cancel
             // 
             this.button_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button_Cancel.Location = new System.Drawing.Point(12, 227);
+            this.button_Cancel.Location = new System.Drawing.Point(190, 168);
             this.button_Cancel.Name = "button_Cancel";
             this.button_Cancel.Size = new System.Drawing.Size(65, 23);
-            this.button_Cancel.TabIndex = 1;
+            this.button_Cancel.TabIndex = 3;
             this.button_Cancel.Text = "Cancel";
             this.button_Cancel.UseVisualStyleBackColor = true;
             this.button_Cancel.Click += new System.EventHandler(this.button_Cancel_Click);
@@ -143,12 +151,67 @@
             // checkBox_HeaderRow
             // 
             this.checkBox_HeaderRow.AutoSize = true;
-            this.checkBox_HeaderRow.Location = new System.Drawing.Point(16, 200);
+            this.checkBox_HeaderRow.Location = new System.Drawing.Point(185, 131);
             this.checkBox_HeaderRow.Name = "checkBox_HeaderRow";
             this.checkBox_HeaderRow.Size = new System.Drawing.Size(130, 17);
-            this.checkBox_HeaderRow.TabIndex = 0;
+            this.checkBox_HeaderRow.TabIndex = 2;
             this.checkBox_HeaderRow.Text = "Contains Header Row";
             this.checkBox_HeaderRow.UseVisualStyleBackColor = true;
+            // 
+            // groupBox_Dimensions
+            // 
+            this.groupBox_Dimensions.Controls.Add(this.label2);
+            this.groupBox_Dimensions.Controls.Add(this.label1);
+            this.groupBox_Dimensions.Controls.Add(this.numericUpDown_NumColumns);
+            this.groupBox_Dimensions.Controls.Add(this.numericUpDown_NumRows);
+            this.groupBox_Dimensions.Location = new System.Drawing.Point(180, 23);
+            this.groupBox_Dimensions.Name = "groupBox_Dimensions";
+            this.groupBox_Dimensions.Size = new System.Drawing.Size(144, 86);
+            this.groupBox_Dimensions.TabIndex = 1;
+            this.groupBox_Dimensions.TabStop = false;
+            this.groupBox_Dimensions.Text = "Dimensions";
+            // 
+            // numericUpDown_NumRows
+            // 
+            this.numericUpDown_NumRows.Location = new System.Drawing.Point(66, 28);
+            this.numericUpDown_NumRows.Maximum = new decimal(new int[] {
+            -727379969,
+            232,
+            0,
+            0});
+            this.numericUpDown_NumRows.Name = "numericUpDown_NumRows";
+            this.numericUpDown_NumRows.Size = new System.Drawing.Size(65, 20);
+            this.numericUpDown_NumRows.TabIndex = 0;
+            // 
+            // numericUpDown_NumColumns
+            // 
+            this.numericUpDown_NumColumns.Location = new System.Drawing.Point(67, 54);
+            this.numericUpDown_NumColumns.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.numericUpDown_NumColumns.Name = "numericUpDown_NumColumns";
+            this.numericUpDown_NumColumns.Size = new System.Drawing.Size(64, 20);
+            this.numericUpDown_NumColumns.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 30);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(34, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Rows";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(9, 56);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(47, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Columns";
             // 
             // Frm_CsvProperties
             // 
@@ -156,7 +219,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button_Cancel;
-            this.ClientSize = new System.Drawing.Size(168, 257);
+            this.ClientSize = new System.Drawing.Size(346, 203);
+            this.Controls.Add(this.groupBox_Dimensions);
             this.Controls.Add(this.checkBox_HeaderRow);
             this.Controls.Add(this.button_Cancel);
             this.Controls.Add(this.button_Ok);
@@ -171,6 +235,10 @@
             this.Load += new System.EventHandler(this.Frm_CsvProperties_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox_Dimensions.ResumeLayout(false);
+            this.groupBox_Dimensions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_NumRows)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_NumColumns)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -188,5 +256,10 @@
         private System.Windows.Forms.Button button_Ok;
         private System.Windows.Forms.Button button_Cancel;
         private System.Windows.Forms.CheckBox checkBox_HeaderRow;
+        private System.Windows.Forms.GroupBox groupBox_Dimensions;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown numericUpDown_NumColumns;
+        private System.Windows.Forms.NumericUpDown numericUpDown_NumRows;
     }
 }

@@ -10,12 +10,35 @@ namespace CsvMatrix.Common
     public class CsvFile : IDisposable
     {
         private DataTable _data;
+        private CsvProperties _properties;
 
-        public CsvProperties Properties { get; set; }
+        public CsvProperties Properties
+        {
+            get { return _properties; }
+            set
+            {
+                _properties = value; ProcessPropertyChange();
+            }
+        }
 
         public CsvFile(CsvProperties properties = null)
         {
             Properties = properties ?? new CsvProperties();
+        }
+
+        public void CreateNew(int numColumns, int numRows)
+        {
+            _data = new DataTable();
+
+            for(var x = 0; x < numColumns; x++)
+            {
+                _data.Columns.Add();
+            }
+
+            for(var y = 0; y < numRows; y++)
+            {
+                _data.Rows.Add(_data.NewRow());
+            }
         }
 
         public bool Load(string filename)
@@ -31,24 +54,26 @@ namespace CsvMatrix.Common
             return LoadCsvFile(stream);
         }
 
-        public static string DetermineDelimiter(string filename)
+        public static string DetermineDelimiter(string filename, out int numColumns)
         {
-            var delimiters = new[] {"\t", ",", ";", "|"};
+            var delimiters = new[] { "\t", ",", ";", "|" };
 
             foreach(var delimiter in delimiters)
             {
                 using(var fs = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
-                    using(var csv = new CsvFile(new CsvProperties {Delimiter = delimiter, MaxRowCount = 5}))
+                    using(var csv = new CsvFile(new CsvProperties { Delimiter = delimiter, MaxRowCount = 5 }))
                     {
                         if(csv.LoadCsvFile(fs) && csv.DataSource.Columns.Count > 1)
                         {
+                            numColumns = csv.DataSource.Columns.Count;
                             return delimiter;
                         }
                     }
                 }
             }
 
+            numColumns = 0;
             return CsvProperties.DefaultDelimiter;
         }
 
@@ -193,7 +218,7 @@ namespace CsvMatrix.Common
             lineString = lineString.Trim();
 
             var cells = new List<string>();
-            
+
             cells.AddRange(lineString.Split(new[] { Properties.Delimiter }, StringSplitOptions.None));
 
             var outCells = new List<string>();
@@ -336,6 +361,41 @@ namespace CsvMatrix.Common
         public bool HasChanges
         {
             get { return _data.GetChanges() != null; }
+        }
+
+        public void UpdateProperties()
+        {
+            if(_data != null)
+            {
+                Properties.NumColumns = _data.Columns.Count;
+                Properties.NumRows = _data.Rows.Count;
+            }
+        }
+
+        private void ProcessPropertyChange()
+        {
+            if(_data != null)
+            {
+                while(_data.Columns.Count > Properties.NumColumns)
+                {
+                    _data.Columns.RemoveAt(_data.Columns.Count - 1);
+                }
+
+                while(Properties.NumColumns > _data.Columns.Count)
+                {
+                    _data.Columns.Add();
+                }
+
+                while(_data.Rows.Count > Properties.NumRows)
+                {
+                    _data.Rows.RemoveAt(_data.Rows.Count - 1);
+                }
+
+                while(Properties.NumRows > _data.Rows.Count)
+                {
+                    _data.Rows.Add();
+                }
+            }
         }
     }
 }
