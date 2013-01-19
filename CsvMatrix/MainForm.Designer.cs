@@ -31,6 +31,7 @@
             this.dataGridView_Main = new System.Windows.Forms.DataGridView();
             this.menuStrip_Main = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,7 +41,8 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip_Main = new System.Windows.Forms.StatusStrip();
-            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modifyColumnsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Main)).BeginInit();
             this.menuStrip_Main.SuspendLayout();
             this.SuspendLayout();
@@ -63,6 +65,7 @@
             // 
             this.menuStrip_Main.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.editToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip_Main.Location = new System.Drawing.Point(0, 0);
             this.menuStrip_Main.Name = "menuStrip_Main";
@@ -83,6 +86,14 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.newToolStripMenuItem.Text = "&New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
@@ -154,13 +165,20 @@
             this.statusStrip_Main.TabIndex = 2;
             this.statusStrip_Main.Text = "statusStrip_Main";
             // 
-            // newToolStripMenuItem
+            // editToolStripMenuItem
             // 
-            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
-            this.newToolStripMenuItem.Text = "&New";
-            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.modifyColumnsToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "&Edit";
+            // 
+            // modifyColumnsToolStripMenuItem
+            // 
+            this.modifyColumnsToolStripMenuItem.Name = "modifyColumnsToolStripMenuItem";
+            this.modifyColumnsToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.modifyColumnsToolStripMenuItem.Text = "Modify &Columns";
+            this.modifyColumnsToolStripMenuItem.Click += new System.EventHandler(this.modifyColumnsToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -199,6 +217,8 @@
         private System.Windows.Forms.StatusStrip statusStrip_Main;
         private System.Windows.Forms.ToolStripMenuItem propertiesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem modifyColumnsToolStripMenuItem;
     }
 }
 

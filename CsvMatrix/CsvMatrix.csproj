@@ -50,6 +50,13 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="ColumnInfo.cs" />
+    <Compile Include="Frm_Columns.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_Columns.Designer.cs">
+      <DependentUpon>Frm_Columns.cs</DependentUpon>
+    </Compile>
     <Compile Include="Frm_CsvProperties.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,6 +80,9 @@
     <Compile Include="Settings\Settings.cs" />
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_Columns.resx">
+      <DependentUpon>Frm_Columns.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_CsvProperties.resx">
       <DependentUpon>Frm_CsvProperties.cs</DependentUpon>

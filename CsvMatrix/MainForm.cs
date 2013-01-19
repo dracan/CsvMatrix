@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Windows.Forms;
@@ -192,6 +193,7 @@ namespace CsvMatrix
                 saveAsToolStripMenuItem.Enabled = false;
                 propertiesToolStripMenuItem.Enabled = false;
                 closeToolStripMenuItem.Enabled = false;
+                modifyColumnsToolStripMenuItem.Enabled = false;
             }
             else
             {
@@ -199,6 +201,7 @@ namespace CsvMatrix
                 saveAsToolStripMenuItem.Enabled = true;
                 propertiesToolStripMenuItem.Enabled = true;
                 closeToolStripMenuItem.Enabled = true;
+                modifyColumnsToolStripMenuItem.Enabled = true;
             }
         }
 
@@ -281,6 +284,41 @@ namespace CsvMatrix
                 UpdateStatusBar();
 
                 _currentFilename = null;
+            }
+        }
+
+        private void modifyColumnsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frmColumns = new Frm_Columns
+                             {
+                                 Columns = (from DataColumn c in _currentCsv.DataSource.Columns
+                                           select new ColumnInfo { ColumnName = c.ColumnName }).ToList()
+                             };
+
+            if(frmColumns.ShowDialog() == DialogResult.OK)
+            {
+                var columnsToDelete = new List<DataColumn>();
+
+                var columnIndex = 0;
+
+                foreach(DataColumn column in _currentCsv.DataSource.Columns)
+                {
+                    if(frmColumns.Columns[columnIndex].Deleted)
+                    {
+                        columnsToDelete.Add(column);
+                    }
+                    else
+                    {
+                        column.ColumnName = frmColumns.Columns[columnIndex].ColumnName;
+                    }
+
+                    columnIndex++;
+                }
+
+                foreach(var columnToDelete in columnsToDelete)
+                {
+                    _currentCsv.DataSource.Columns.Remove(columnToDelete);
+                }
             }
         }
     }
