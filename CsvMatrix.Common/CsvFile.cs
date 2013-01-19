@@ -140,9 +140,22 @@ namespace CsvMatrix.Common
 
             foreach(var cell in cells)
             {
-                var value = cell;
+                _data.Columns.Add(Properties.HasHeaderRow ? cell : "");
+            }
 
-                _data.Columns.Add(value);
+            // If this CSV doesn't have a header row, then add a data row for this first row
+            if(!Properties.HasHeaderRow)
+            {
+                var row = _data.NewRow();
+
+                var cellIndex = 0;
+
+                foreach(var cell in cells)
+                {
+                    row[cellIndex++] = cell;
+                }
+
+                _data.Rows.Add(row);
             }
 
             return true;
@@ -309,30 +322,33 @@ namespace CsvMatrix.Common
 
                     var firstColumn = true;
 
-                    foreach(var columnIndex in columns)
+                    if(Properties.HasHeaderRow)
                     {
-                        if(firstColumn)
+                        foreach(var columnIndex in columns)
                         {
-                            firstColumn = false;
-                        }
-                        else
-                        {
-                            sw.Write(Properties.Delimiter);
+                            if(firstColumn)
+                            {
+                                firstColumn = false;
+                            }
+                            else
+                            {
+                                sw.Write(Properties.Delimiter);
+                            }
+
+                            var columnName = _data.Columns[columnIndex].ColumnName;
+
+                            if(columnName.Contains(Properties.Delimiter) || columnName.Contains("\n"))
+                            {
+                                sw.Write("\"" + columnName + "\"");
+                            }
+                            else
+                            {
+                                sw.Write(columnName);
+                            }
                         }
 
-                        var columnName = _data.Columns[columnIndex].ColumnName;
-
-                        if(columnName.Contains(Properties.Delimiter) || columnName.Contains("\n"))
-                        {
-                            sw.Write("\"" + columnName + "\"");
-                        }
-                        else
-                        {
-                            sw.Write(columnName);
-                        }
+                        sw.WriteLine();
                     }
-
-                    sw.WriteLine();
 
                     // Write the data rows
 

@@ -28,7 +28,7 @@ namespace CsvMatrix
         {
             // Setup defaults
 
-            checkBox_HeaderRow.Checked = true;
+            checkBox_HeaderRow.Checked = CsvProperties.HasHeaderRow;
 
             switch(CsvProperties.Delimiter)
             {
@@ -70,6 +70,8 @@ namespace CsvMatrix
             {
                 CsvProperties.Delimiter = textBox_Other.Text;
             }
+
+            CsvProperties.HasHeaderRow = checkBox_HeaderRow.Checked;
 
             var newRowCount = (int)numericUpDown_NumRows.Value;
             var newColumnCount = (int)numericUpDown_NumColumns.Value;
