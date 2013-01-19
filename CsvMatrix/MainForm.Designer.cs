@@ -56,7 +56,7 @@
             this.dataGridView_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView_Main.Location = new System.Drawing.Point(0, 24);
             this.dataGridView_Main.Name = "dataGridView_Main";
-            this.dataGridView_Main.Size = new System.Drawing.Size(833, 479);
+            this.dataGridView_Main.Size = new System.Drawing.Size(833, 457);
             this.dataGridView_Main.TabIndex = 0;
             this.dataGridView_Main.ColumnDisplayIndexChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dataGridView_Main_ColumnDisplayIndexChanged);
             this.dataGridView_Main.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView_Main_RowsAdded);
@@ -186,8 +186,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(833, 503);
-            this.Controls.Add(this.statusStrip_Main);
             this.Controls.Add(this.dataGridView_Main);
+            this.Controls.Add(this.statusStrip_Main);
             this.Controls.Add(this.menuStrip_Main);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip_Main;
