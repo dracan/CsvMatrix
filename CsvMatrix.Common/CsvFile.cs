@@ -278,6 +278,8 @@ namespace CsvMatrix.Common
         /// <param name="columns">List of columns indices to save. This is passed is because the user may have changed the sort order, or they may just saving a subset of columns</param>
         public void Save(string filename, IList<int> columns = null)
         {
+            _data.AcceptChanges();
+
             if(columns == null)
             {
                 // No column order / subset has been specified, so use all the columns in the order in the main datatable
@@ -345,8 +347,6 @@ namespace CsvMatrix.Common
                     }
                 }
             }
-
-            _data.AcceptChanges();
         }
 
         public void Dispose()
