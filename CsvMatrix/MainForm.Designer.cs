@@ -58,7 +58,6 @@
             // dataGridView_Main
             // 
             this.dataGridView_Main.AllowUserToOrderColumns = true;
-            this.dataGridView_Main.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView_Main.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView_Main.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_Main.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -196,7 +195,7 @@
             this.insertColumnToolStripMenuItem,
             this.deleteColumnToolStripMenuItem});
             this.contextMenuStrip_RightClickColumnHeader.Name = "contextMenuStrip_RightClickColumnHeader";
-            this.contextMenuStrip_RightClickColumnHeader.Size = new System.Drawing.Size(154, 70);
+            this.contextMenuStrip_RightClickColumnHeader.Size = new System.Drawing.Size(154, 48);
             // 
             // insertColumnToolStripMenuItem
             // 
