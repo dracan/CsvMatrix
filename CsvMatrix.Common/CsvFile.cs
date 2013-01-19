@@ -320,7 +320,16 @@ namespace CsvMatrix.Common
                             sw.Write(Properties.Delimiter);
                         }
 
-                        sw.Write(_data.Columns[columnIndex].ColumnName);
+                        var columnName = _data.Columns[columnIndex].ColumnName;
+
+                        if(columnName.Contains(Properties.Delimiter) || columnName.Contains("\n"))
+                        {
+                            sw.Write("\"" + columnName + "\"");
+                        }
+                        else
+                        {
+                            sw.Write(columnName);
+                        }
                     }
 
                     sw.WriteLine();
@@ -342,11 +351,11 @@ namespace CsvMatrix.Common
                                 sw.Write(Properties.Delimiter);
                             }
 
-                            var value = row[columnIndex];
+                            var value = row[columnIndex].ToString();
 
-                            if(value.ToString().Contains(Properties.Delimiter.ToString(CultureInfo.InvariantCulture)))
+                            if(value.Contains(Properties.Delimiter) || value.Contains("\n"))
                             {
-                                sw.Write("\"" + row[columnIndex] + "\"");
+                                sw.Write("\"" + value + "\"");
                             }
                             else
                             {
