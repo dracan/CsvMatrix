@@ -302,6 +302,16 @@ namespace CsvMatrix.Common
         /// <param name="columns">List of columns indices to save. This is passed is because the user may have changed the sort order, or they may just saving a subset of columns</param>
         public void Save(string filename, IList<int> columns = null)
         {
+            string originalFileCopyFilename = null;
+
+            if(File.Exists(filename))
+            {
+                // Copy old file to temp file, so we can restore if there's an error when saving
+                originalFileCopyFilename = Path.GetTempFileName();
+
+                File.Copy(filename, originalFileCopyFilename, true);
+            }
+
             _data.AcceptChanges();
 
             if(columns == null)
@@ -314,74 +324,95 @@ namespace CsvMatrix.Common
                     columns.Add(c);
                 }
             }
-            using(var fs = new FileStream(filename, FileMode.Create, FileAccess.Write))
+
+            try
             {
-                using(var sw = new StreamWriter(fs))
+                using(var fs = new FileStream(filename, FileMode.Create, FileAccess.Write))
                 {
-                    // Write the header row
-
-                    var firstColumn = true;
-
-                    if(Properties.HasHeaderRow)
+                    using(var sw = new StreamWriter(fs))
                     {
-                        foreach(var columnIndex in columns)
+                        // Write the header row
+
+                        var firstColumn = true;
+
+                        if(Properties.HasHeaderRow)
                         {
-                            if(firstColumn)
+                            foreach(var columnIndex in columns)
                             {
-                                firstColumn = false;
-                            }
-                            else
-                            {
-                                sw.Write(Properties.Delimiter);
+                                if(firstColumn)
+                                {
+                                    firstColumn = false;
+                                }
+                                else
+                                {
+                                    sw.Write(Properties.Delimiter);
+                                }
+
+                                var columnName = _data.Columns[columnIndex].ColumnName;
+
+                                if(columnName.Contains(Properties.Delimiter) || columnName.Contains("\n"))
+                                {
+                                    sw.Write("\"" + columnName + "\"");
+                                }
+                                else
+                                {
+                                    sw.Write(columnName);
+                                }
                             }
 
-                            var columnName = _data.Columns[columnIndex].ColumnName;
-
-                            if(columnName.Contains(Properties.Delimiter) || columnName.Contains("\n"))
-                            {
-                                sw.Write("\"" + columnName + "\"");
-                            }
-                            else
-                            {
-                                sw.Write(columnName);
-                            }
+                            sw.WriteLine();
                         }
 
-                        sw.WriteLine();
-                    }
+                        // Write the data rows
 
-                    // Write the data rows
-
-                    foreach(DataRow row in _data.Rows)
-                    {
-                        var firstCell = true;
-
-                        foreach(var columnIndex in columns)
+                        foreach(DataRow row in _data.Rows)
                         {
-                            if(firstCell)
+                            var firstCell = true;
+
+                            foreach(var columnIndex in columns)
                             {
-                                firstCell = false;
-                            }
-                            else
-                            {
-                                sw.Write(Properties.Delimiter);
+                                if(firstCell)
+                                {
+                                    firstCell = false;
+                                }
+                                else
+                                {
+                                    sw.Write(Properties.Delimiter);
+                                }
+
+                                var value = row[columnIndex].ToString();
+
+                                if(value.Contains(Properties.Delimiter) || value.Contains("\n"))
+                                {
+                                    sw.Write("\"" + value + "\"");
+                                }
+                                else
+                                {
+                                    sw.Write(row[columnIndex]);
+                                }
                             }
 
-                            var value = row[columnIndex].ToString();
-
-                            if(value.Contains(Properties.Delimiter) || value.Contains("\n"))
-                            {
-                                sw.Write("\"" + value + "\"");
-                            }
-                            else
-                            {
-                                sw.Write(row[columnIndex]);
-                            }
+                            sw.WriteLine();
                         }
-
-                        sw.WriteLine();
                     }
                 }
+
+                // No exception occurred, so we can remove the temporary backup copy
+                if(!string.IsNullOrEmpty(originalFileCopyFilename))
+                {
+                    File.Delete(originalFileCopyFilename);
+                }
+            }
+            catch(Exception)
+            {
+                // An error has occurred, so restore the original file
+
+                if(!string.IsNullOrEmpty(originalFileCopyFilename))
+                {
+                    File.Copy(originalFileCopyFilename, filename, true);
+                }
+
+                throw;
             }
         }
 
