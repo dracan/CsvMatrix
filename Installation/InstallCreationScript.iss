@@ -33,8 +33,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Code\CsvMatrix\CsvMatrix\bin\Release\CsvMatrix.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Code\CsvMatrix\CsvMatrix\bin\Release\CsvMatrix.Common.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\CsvMatrix\bin\Release\CsvMatrix.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\CsvMatrix\bin\Release\CsvMatrix.Common.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
