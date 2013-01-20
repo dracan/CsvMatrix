@@ -39,14 +39,14 @@
             this.button_Cancel = new System.Windows.Forms.Button();
             this.checkBox_HeaderRow = new System.Windows.Forms.CheckBox();
             this.groupBox_Dimensions = new System.Windows.Forms.GroupBox();
-            this.numericUpDown_NumRows = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_NumColumns = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.numericUpDown_NumColumns = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_NumRows = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
             this.groupBox_Dimensions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_NumRows)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_NumColumns)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_NumRows)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -66,6 +66,7 @@
             // 
             // textBox_Other
             // 
+            this.textBox_Other.Enabled = false;
             this.textBox_Other.Location = new System.Drawing.Point(34, 146);
             this.textBox_Other.Name = "textBox_Other";
             this.textBox_Other.Size = new System.Drawing.Size(100, 20);
@@ -171,17 +172,23 @@
             this.groupBox_Dimensions.TabStop = false;
             this.groupBox_Dimensions.Text = "Dimensions";
             // 
-            // numericUpDown_NumRows
+            // label2
             // 
-            this.numericUpDown_NumRows.Location = new System.Drawing.Point(66, 28);
-            this.numericUpDown_NumRows.Maximum = new decimal(new int[] {
-            -727379969,
-            232,
-            0,
-            0});
-            this.numericUpDown_NumRows.Name = "numericUpDown_NumRows";
-            this.numericUpDown_NumRows.Size = new System.Drawing.Size(65, 20);
-            this.numericUpDown_NumRows.TabIndex = 0;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(9, 56);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(47, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Columns";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 30);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(34, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Rows";
             // 
             // numericUpDown_NumColumns
             // 
@@ -195,23 +202,17 @@
             this.numericUpDown_NumColumns.Size = new System.Drawing.Size(64, 20);
             this.numericUpDown_NumColumns.TabIndex = 1;
             // 
-            // label1
+            // numericUpDown_NumRows
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 30);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Rows";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 56);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(47, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Columns";
+            this.numericUpDown_NumRows.Location = new System.Drawing.Point(66, 28);
+            this.numericUpDown_NumRows.Maximum = new decimal(new int[] {
+            -727379969,
+            232,
+            0,
+            0});
+            this.numericUpDown_NumRows.Name = "numericUpDown_NumRows";
+            this.numericUpDown_NumRows.Size = new System.Drawing.Size(65, 20);
+            this.numericUpDown_NumRows.TabIndex = 0;
             // 
             // Frm_CsvProperties
             // 
@@ -237,8 +238,8 @@
             this.groupBox1.PerformLayout();
             this.groupBox_Dimensions.ResumeLayout(false);
             this.groupBox_Dimensions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_NumRows)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_NumColumns)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_NumRows)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

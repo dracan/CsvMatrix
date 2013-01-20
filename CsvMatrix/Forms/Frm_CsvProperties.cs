@@ -42,6 +42,12 @@ namespace CsvMatrix.Forms
             numericUpDown_NumRows.Value = CsvProperties.NumRows;
             numericUpDown_NumColumns.Value = CsvProperties.NumColumns;
 
+            if(radioButton_Other.Checked)
+            {
+                textBox_Other.Enabled = radioButton_Other.Checked;
+                textBox_Other.Text = CsvProperties.Delimiter;
+            }
+
             // Disable textboxes if number of rows is 0. This happens when opening a CSV. We only want to be able to edit this
             // when viewing the properties of an already loaded CSV.
             numericUpDown_NumColumns.Enabled = (CsvProperties.NumRows > 0);
