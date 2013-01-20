@@ -43,6 +43,12 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modifyColumnsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gotoCellToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.columnWidthModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.noneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fillToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoFitUsingAllCells_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoFitUsingVisibleCells_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip_Main = new System.Windows.Forms.StatusStrip();
@@ -76,6 +82,7 @@
             this.menuStrip_Main.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
+            this.viewToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip_Main.Location = new System.Drawing.Point(0, 0);
             this.menuStrip_Main.Name = "menuStrip_Main";
@@ -175,6 +182,55 @@
             this.gotoCellToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.gotoCellToolStripMenuItem.Text = "&Goto Cell";
             this.gotoCellToolStripMenuItem.Click += new System.EventHandler(this.gotoCellToolStripMenuItem_Click);
+            // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.columnWidthModeToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "&View";
+            // 
+            // columnWidthModeToolStripMenuItem
+            // 
+            this.columnWidthModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.noneToolStripMenuItem,
+            this.fillToolStripMenuItem,
+            this.autoFitUsingAllCells_ToolStripMenuItem,
+            this.autoFitUsingVisibleCells_ToolStripMenuItem});
+            this.columnWidthModeToolStripMenuItem.Name = "columnWidthModeToolStripMenuItem";
+            this.columnWidthModeToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.columnWidthModeToolStripMenuItem.Text = "Column &Width Mode";
+            // 
+            // noneToolStripMenuItem
+            // 
+            this.noneToolStripMenuItem.Checked = true;
+            this.noneToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.noneToolStripMenuItem.Name = "noneToolStripMenuItem";
+            this.noneToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.noneToolStripMenuItem.Text = "&None";
+            this.noneToolStripMenuItem.Click += new System.EventHandler(this.noneToolStripMenuItem_Click);
+            // 
+            // fillToolStripMenuItem
+            // 
+            this.fillToolStripMenuItem.Name = "fillToolStripMenuItem";
+            this.fillToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.fillToolStripMenuItem.Text = "&Fill";
+            this.fillToolStripMenuItem.Click += new System.EventHandler(this.fillToolStripMenuItem_Click);
+            // 
+            // autoFitUsingAllCells_ToolStripMenuItem
+            // 
+            this.autoFitUsingAllCells_ToolStripMenuItem.Name = "autoFitUsingAllCells_ToolStripMenuItem";
+            this.autoFitUsingAllCells_ToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.autoFitUsingAllCells_ToolStripMenuItem.Text = "Autofit Using &All Cells";
+            this.autoFitUsingAllCells_ToolStripMenuItem.Click += new System.EventHandler(this.autofitUsingAllCells_ToolStripMenuItem_Click);
+            // 
+            // autoFitUsingVisibleCells_ToolStripMenuItem
+            // 
+            this.autoFitUsingVisibleCells_ToolStripMenuItem.Name = "autoFitUsingVisibleCells_ToolStripMenuItem";
+            this.autoFitUsingVisibleCells_ToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.autoFitUsingVisibleCells_ToolStripMenuItem.Text = "Autofit Using &Visible Cells";
+            this.autoFitUsingVisibleCells_ToolStripMenuItem.Click += new System.EventHandler(this.autofitUsingVisibleCells_ToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -284,6 +340,12 @@
         private System.Windows.Forms.ToolStripMenuItem afterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteColumnToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gotoCellToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem columnWidthModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem noneToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fillToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem autoFitUsingAllCells_ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem autoFitUsingVisibleCells_ToolStripMenuItem;
     }
 }
 

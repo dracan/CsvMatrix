@@ -408,5 +408,45 @@ namespace CsvMatrix.Forms
                 dataGridView_Main.BeginEdit(true);
             }
         }
+
+        private void noneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataGridView_Main.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+
+            noneToolStripMenuItem.CheckState = CheckState.Checked;
+            fillToolStripMenuItem.CheckState = CheckState.Unchecked;
+            autoFitUsingAllCells_ToolStripMenuItem.CheckState = CheckState.Unchecked;
+            autoFitUsingVisibleCells_ToolStripMenuItem.CheckState = CheckState.Unchecked;
+        }
+
+        private void fillToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataGridView_Main.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            noneToolStripMenuItem.CheckState = CheckState.Unchecked;
+            fillToolStripMenuItem.CheckState = CheckState.Checked;
+            autoFitUsingAllCells_ToolStripMenuItem.CheckState = CheckState.Unchecked;
+            autoFitUsingVisibleCells_ToolStripMenuItem.CheckState = CheckState.Unchecked;
+        }
+
+        private void autofitUsingAllCells_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataGridView_Main.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            noneToolStripMenuItem.CheckState = CheckState.Unchecked;
+            fillToolStripMenuItem.CheckState = CheckState.Unchecked;
+            autoFitUsingAllCells_ToolStripMenuItem.CheckState = CheckState.Checked;
+            autoFitUsingVisibleCells_ToolStripMenuItem.CheckState = CheckState.Unchecked;
+        }
+
+        private void autofitUsingVisibleCells_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataGridView_Main.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+
+            noneToolStripMenuItem.CheckState = CheckState.Unchecked;
+            fillToolStripMenuItem.CheckState = CheckState.Unchecked;
+            autoFitUsingAllCells_ToolStripMenuItem.CheckState = CheckState.Unchecked;
+            autoFitUsingVisibleCells_ToolStripMenuItem.CheckState = CheckState.Checked;
+        }
     }
 }
