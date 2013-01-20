@@ -11,9 +11,19 @@ namespace CsvMatrix.Forms
     public partial class Frm_Main : Form
     {
         private CsvFile _currentCsv;
-        private string _currentFilename;
         private bool _modified;
         private int _rightClickColumnIndex;
+        private string _currentFilename;
+
+        private string CurrentFilename
+        {
+            get { return _currentFilename; }
+            set
+            {
+                _currentFilename = value;
+                Text = value == null ? "CsvMatrix" : "CsvMatrix - " + value;
+            }
+        }
 
         public Frm_Main()
         {
@@ -92,7 +102,7 @@ namespace CsvMatrix.Forms
                     UpdateMenuStates();
                     UpdateStatusBar();
 
-                    _currentFilename = filename;
+                    CurrentFilename = filename;
                 }
                 else
                 {
@@ -151,7 +161,7 @@ namespace CsvMatrix.Forms
             if(CheckForChangesBeforeClosing())
             {
                 _currentCsv = null;
-                _currentFilename = null;
+                CurrentFilename = null;
                 dataGridView_Main.DataSource = null;
                 _modified = false;
 
@@ -172,13 +182,13 @@ namespace CsvMatrix.Forms
 
         private void Save()
         {
-            if(_currentFilename == null)
+            if(CurrentFilename == null)
             {
                 SaveAs();
             }
             else
             {
-                _currentCsv.Save(_currentFilename, (from DataGridViewColumn c in dataGridView_Main.Columns
+                _currentCsv.Save(CurrentFilename, (from DataGridViewColumn c in dataGridView_Main.Columns
                                                     orderby c.DisplayIndex
                                                     select c.Index).ToList());
 
@@ -201,7 +211,7 @@ namespace CsvMatrix.Forms
                                                            orderby c.DisplayIndex
                                                            select c.Index).ToList());
 
-                _currentFilename = saveFileDialog.FileName;
+                CurrentFilename = saveFileDialog.FileName;
 
                 _modified = false;
             }
@@ -307,7 +317,7 @@ namespace CsvMatrix.Forms
                 UpdateMenuStates();
                 UpdateStatusBar();
 
-                _currentFilename = null;
+                CurrentFilename = null;
             }
         }
 
