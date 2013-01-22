@@ -64,6 +64,7 @@
             // 
             // dataGridView_Main
             // 
+            this.dataGridView_Main.AllowDrop = true;
             this.dataGridView_Main.AllowUserToOrderColumns = true;
             this.dataGridView_Main.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView_Main.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -76,6 +77,8 @@
             this.dataGridView_Main.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_Main_ColumnHeaderMouseClick);
             this.dataGridView_Main.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView_Main_RowsAdded);
             this.dataGridView_Main.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView_Main_RowsRemoved);
+            this.dataGridView_Main.DragDrop += new System.Windows.Forms.DragEventHandler(this.dataGridView_Main_DragDrop);
+            this.dataGridView_Main.DragEnter += new System.Windows.Forms.DragEventHandler(this.dataGridView_Main_DragEnter);
             // 
             // menuStrip_Main
             // 
@@ -295,6 +298,7 @@
             // 
             // Frm_Main
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(833, 503);

@@ -55,7 +55,10 @@ namespace CsvMatrix.Forms
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFile();
+            if(CheckForChanges())
+            {
+                OpenFile();
+            }
         }
 
         private void OpenFile()
@@ -75,7 +78,7 @@ namespace CsvMatrix.Forms
 
         private void OpenFile(string filename)
         {
-            var frmCsvProperties = new Frm_CsvProperties(false);
+            var frmCsvProperties = new Frm_CsvProperties(this, false);
 
             int numColumns;
 
@@ -119,7 +122,7 @@ namespace CsvMatrix.Forms
             }
         }
 
-        private bool CheckForChangesBeforeClosing()
+        private bool CheckForChanges()
         {
             if(_currentCsv != null && (_currentCsv.HasChanges || _modified))
             {
@@ -150,7 +153,7 @@ namespace CsvMatrix.Forms
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(CheckForChangesBeforeClosing())
+            if(CheckForChanges())
             {
                 Close();
             }
@@ -158,7 +161,7 @@ namespace CsvMatrix.Forms
 
         private void closeToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if(CheckForChangesBeforeClosing())
+            if(CheckForChanges())
             {
                 _currentCsv = null;
                 CurrentFilename = null;
@@ -261,7 +264,7 @@ namespace CsvMatrix.Forms
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(!CheckForChangesBeforeClosing())
+            if(!CheckForChanges())
             {
                 e.Cancel = true;
             }
@@ -288,7 +291,7 @@ namespace CsvMatrix.Forms
         {
             _currentCsv.UpdateProperties();
 
-            var frmProperties = new Frm_CsvProperties(true) { CsvProperties = _currentCsv.Properties };
+            var frmProperties = new Frm_CsvProperties(this, true) { CsvProperties = _currentCsv.Properties };
 
             if(frmProperties.ShowDialog() == DialogResult.OK)
             {
@@ -298,12 +301,15 @@ namespace CsvMatrix.Forms
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            NewCsvFile();
+            if(CheckForChanges())
+            {
+                NewCsvFile();
+            }
         }
 
         private void NewCsvFile()
         {
-            var frmProperties = new Frm_CsvProperties(false, new CsvProperties { NumColumns = 10, NumRows = 10 });
+            var frmProperties = new Frm_CsvProperties(this, false, new CsvProperties { NumColumns = 10, NumRows = 10 });
 
             if(frmProperties.ShowDialog() == DialogResult.OK)
             {
@@ -447,6 +453,27 @@ namespace CsvMatrix.Forms
             fillToolStripMenuItem.CheckState = CheckState.Unchecked;
             autoFitUsingAllCells_ToolStripMenuItem.CheckState = CheckState.Unchecked;
             autoFitUsingVisibleCells_ToolStripMenuItem.CheckState = CheckState.Checked;
+        }
+
+        private void dataGridView_Main_DragEnter(object sender, DragEventArgs e)
+        {
+            if(e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+        }
+
+        private void dataGridView_Main_DragDrop(object sender, DragEventArgs e)
+        {
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            if(files.Any())
+            {
+                if(CheckForChanges())
+                {
+                    OpenFile(files.First());
+                }
+            }
         }
     }
 }

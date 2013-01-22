@@ -7,12 +7,14 @@ namespace CsvMatrix.Forms
     {
         public CsvProperties CsvProperties { get; set; }
         private readonly bool _isAlreadyLoaded;
+        private Frm_Main _parentForm;
 
-        public Frm_CsvProperties(bool isAlreadyLoaded, CsvProperties properties = null)
+        public Frm_CsvProperties(Frm_Main parentForm, bool isAlreadyLoaded, CsvProperties properties = null)
         {
             InitializeComponent();
 
             _isAlreadyLoaded = isAlreadyLoaded;
+            _parentForm = parentForm;
 
             if(properties == null)
             {
@@ -26,6 +28,12 @@ namespace CsvMatrix.Forms
 
         private void Frm_CsvProperties_Load(object sender, System.EventArgs e)
         {
+            // For some reason, the form's "StartPosition" property to CenterParent wasn't working when this OpenFile was called from the
+            // drag and drop event handler (dataGridView_Main_DragDrop). Instead the CsvProperties form was appearing in the top, left of
+            // the screen. So instead, manually calculate the centre parent position.
+            Left = (_parentForm.Left + _parentForm.Width / 2) - (Width / 2);
+            Top = (_parentForm.Top + _parentForm.Height / 2) - (Height / 2);
+
             // Setup defaults
 
             checkBox_HeaderRow.Checked = CsvProperties.HasHeaderRow;

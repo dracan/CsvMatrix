@@ -231,7 +231,7 @@
             this.MinimizeBox = false;
             this.Name = "Frm_CsvProperties";
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Properties";
             this.Load += new System.EventHandler(this.Frm_CsvProperties_Load);
             this.groupBox1.ResumeLayout(false);
