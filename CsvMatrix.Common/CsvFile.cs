@@ -239,7 +239,15 @@ namespace CsvMatrix.Common
         private IList<string> SplitLine(string lineString, Func<string> getNextLine)
         {
             // Trim any leading and trailing whitespace characters
-            lineString = lineString.Trim();
+            if(Properties.Delimiter == "\t")
+            {
+                // Don't trim tabs if the delimiter is a tab (as this can remove columns containing an empty string at the start or end of a line)
+                lineString = lineString.Trim(' ');
+            }
+            else
+            {
+                lineString = lineString.Trim();
+            }
 
             var cells = new List<string>();
 

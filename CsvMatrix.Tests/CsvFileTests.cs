@@ -133,12 +133,12 @@ namespace CsvMatrix.Tests
         {
             var testData = new StringBuilder();
 
-            testData.AppendLine("\"FirstName\"\t\"Surname\"\tAge\t\"Gender\"");
-            testData.AppendLine("      \t\"Dan\"\t\"Clarke\"\t34\t\"Male\"     \t    ");
+            testData.AppendLine("\"FirstName\",\"Surname\",Age,\"Gender\"");
+            testData.AppendLine("      \t\"Dan\",\"Clarke\",34,\"Male\"     \t    ");
 
             bool loadRetValue;
 
-            var csv = Utility.CreateCsvObject(testData, "\t", out loadRetValue);
+            var csv = Utility.CreateCsvObject(testData, ",", out loadRetValue);
 
             Assert.That(loadRetValue, Is.True);
             Assert.That(csv.DataSource.Columns.Count, Is.EqualTo(4));
@@ -305,6 +305,25 @@ namespace CsvMatrix.Tests
             var delimiter = CsvFile.DetermineDelimiter(tempFilename, out numColumns);
 
             Assert.That(delimiter, Is.EqualTo("|"));
+        }
+
+        [Test]
+        public void TestEmptyStringWithoutQuotesAsLastColumn()
+        {
+            var testData = new StringBuilder();
+
+            testData.AppendLine("\"FirstName\"\t\"Surname\"\tAge\t");
+            testData.AppendLine("\"Dan\"\t\"Cl\nar\nke\"\t34\t");
+
+            var tempFilename = Path.GetTempFileName();
+            File.WriteAllText(tempFilename, testData.ToString());
+
+            int numColumns;
+
+            var delimiter = CsvFile.DetermineDelimiter(tempFilename, out numColumns);
+
+            Assert.That(delimiter, Is.EqualTo("\t"));
+            Assert.That(numColumns, Is.EqualTo(4));
         }
 
         [Test]
