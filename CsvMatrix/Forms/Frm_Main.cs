@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.IO;
 using System.Windows.Forms;
 using CsvMatrix.Common;
 using System.Linq;
@@ -78,46 +79,56 @@ namespace CsvMatrix.Forms
 
         private void OpenFile(string filename)
         {
-            var frmCsvProperties = new Frm_CsvProperties(this, false);
-
-            int numColumns;
-
-            string suspectedDelimiter = CsvFile.DetermineDelimiter(filename, out numColumns);
-
-            frmCsvProperties.CsvProperties.Delimiter = suspectedDelimiter;
-            frmCsvProperties.CsvProperties.NumColumns = numColumns;
-
-            if(frmCsvProperties.ShowDialog() == DialogResult.OK)
+            try
             {
-                _currentCsv = new CsvFile(frmCsvProperties.CsvProperties);
+                var frmCsvProperties = new Frm_CsvProperties(this, false);
 
-                if(_currentCsv.Load(filename))
+                int numColumns;
+
+                string suspectedDelimiter = CsvFile.DetermineDelimiter(filename, out numColumns);
+
+                frmCsvProperties.CsvProperties.Delimiter = suspectedDelimiter;
+                frmCsvProperties.CsvProperties.NumColumns = numColumns;
+
+                if(frmCsvProperties.ShowDialog() == DialogResult.OK)
                 {
-                    if(_currentCsv.LoadErrors.Count > 0)
+                    _currentCsv = new CsvFile(frmCsvProperties.CsvProperties);
+
+                    if(_currentCsv.Load(filename))
                     {
-                        var frmErrors = new Frm_Errors("File has been loaded, but the following errors were found:", _currentCsv.LoadErrors);
-                        frmErrors.ShowDialog();
-                    }
+                        if(_currentCsv.LoadErrors.Count > 0)
+                        {
+                            var frmErrors = new Frm_Errors("File has been loaded, but the following errors were found:", _currentCsv.LoadErrors);
+                            frmErrors.ShowDialog();
+                        }
 
-                    dataGridView_Main.DataSource = _currentCsv.DataSource;
-                    _modified = false;
+                        dataGridView_Main.DataSource = _currentCsv.DataSource;
+                        _modified = false;
 
-                    UpdateMenuStates();
-                    UpdateStatusBar();
+                        UpdateMenuStates();
+                        UpdateStatusBar();
 
-                    CurrentFilename = filename;
-                }
-                else
-                {
-                    if(_currentCsv.LoadErrors.Count > 0)
-                    {
-                        var frmErrors = new Frm_Errors("File could not be loaded. The following errors were found:", _currentCsv.LoadErrors);
-                        frmErrors.ShowDialog();
+                        CurrentFilename = filename;
                     }
                     else
                     {
-                        MessageBox.Show("Could not load file, as it appears to be invalid");
+                        if(_currentCsv.LoadErrors.Count > 0)
+                        {
+                            var frmErrors = new Frm_Errors("File could not be loaded. The following errors were found:", _currentCsv.LoadErrors);
+                            frmErrors.ShowDialog();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Could not load file, as it appears to be invalid");
+                        }
                     }
+                }
+            }
+            catch(IOException)
+            {
+                if(MessageBox.Show("Failed to open file - is it in use by another process?", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning) == DialogResult.Retry)
+                {
+                    OpenFile(filename);
                 }
             }
         }
