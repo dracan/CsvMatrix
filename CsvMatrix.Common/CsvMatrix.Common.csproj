@@ -42,6 +42,7 @@
     <Compile Include="CsvFile.cs" />
     <Compile Include="CsvProperties.cs" />
     <Compile Include="CustomExceptions.cs" />
+    <Compile Include="Export\ExportSqlServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
