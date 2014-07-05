@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.IO;
 using System.Windows.Forms;
 using CsvMatrix.Common;
 using System.Linq;
@@ -121,15 +120,15 @@ namespace CsvMatrix.Forms
                         {
                             MessageBox.Show("Could not load file, as it appears to be invalid");
                         }
+
+                        _currentCsv = null;
                     }
                 }
             }
-            catch(IOException)
+            catch(Exception)
             {
-                if(MessageBox.Show("Failed to open file - is it in use by another process?", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning) == DialogResult.Retry)
-                {
-                    OpenFile(filename);
-                }
+                _currentCsv = null;
+                MessageBox.Show("Failed to open file - is it in use by another process?", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
