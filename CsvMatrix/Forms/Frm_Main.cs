@@ -488,6 +488,10 @@ namespace CsvMatrix.Forms
 
         private void SQLServerToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            using(var frm = new Frm_SqlServerExport())
+            {
+                frm.ShowDialog();
+            }
         }
     }
 }
